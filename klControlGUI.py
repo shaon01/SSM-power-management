@@ -11,13 +11,13 @@ window.geometry('640x480')
 
 
 # lable for kl15
-lbl_KL_15 = Label(window, bg="green", text="ON",height=2, width=5)
+lbl_KL_15 = Label(window, bg="green", text="ON",height=2, width=7)
 lbl_KL_15.grid(column=2, row=1)
 # lable for kl30
-lbl_KL_30 = Label(window,bg="green", text="ON",height=2, width=5)
+lbl_KL_30 = Label(window,bg="green", text="ON",height=2, width=7)
 lbl_KL_30.grid(column=2, row=2)
 # lable for all power
-lbl_reboot = Label(window,bg="green", text="ON",height=2, width=5)
+lbl_reboot = Label(window,bg="green", text="ON",height=2, width=7)
 lbl_reboot.grid(column=2, row=3, padx=5,pady=5)
 
 # lable handeler for kl15
