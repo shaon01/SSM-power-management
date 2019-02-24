@@ -1,6 +1,4 @@
-from time import sleep
-import serial
-ser = serial.Serial('/dev/ttyACM0', 9600) # Establish the connection on a specific port
+import  SerialConnect
 
 
 def printOptions():
@@ -13,19 +11,9 @@ def printOptions():
 	print "****************************\n"
 
 
-def sendPowerCmd(pwrCmd):
-	ser.write(str(pwrCmd)) 
-	print ser.readline() 
-	sleep(.1) # Delay for one tenth of a second
-
-
-
-
-
-
-
-
 printOptions()
+
+sendSerial = SerialConnect.SerialConnect()
 
 
 while True:
@@ -33,7 +21,7 @@ while True:
 	userInput = raw_input("Give the user action: ")
 	if userInput is 'q':
 		exit()
-	sendPowerCmd(userInput)
+	sendSerial.sendData(userInput)
 	
 	
 
