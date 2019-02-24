@@ -9,9 +9,9 @@ import serial.tools.list_ports
 
 class SerialConnect:
 	
-	kl15Status = "ON"
-	kl30Status = "ON"
-	rbtStatus  = "ON" 
+	kl15Status = "unknown"
+	kl30Status = "unknown"
+	rbtStatus  = "unknown" 
 
 	kl15on 	= 	'k'
 	kl15off = 	'f'
@@ -26,18 +26,24 @@ class SerialConnect:
 		try:
 			self.srlCom = serial.Serial(self.getComProt(), 9600)
 			self.serialStatus = 'CONNECTED'
+			self.kl15Status = "ON"
+			self.kl30Status = "ON"
+			self.rbtStatus  = "ON"
 		except (OSError, serial.SerialException):
 			self.serialStatus = 'DISCONNECTED'
 			pass
 		
 	def sendData(self,powerCmd):
-		self.srlCom.write(str.encode(powerCmd)) 
-		sleep(.1) # Delay for one tenth of a second
+		try:
+			self.srlCom.write(str.encode(powerCmd)) 
+			sleep(.1) # Delay for one tenth of a second
+		except (OSError, serial.SerialException):
+			self.serialStatus = 'DISCONNECTED'
+			pass
 		
 # send kl 15 serial to contorl and set the button value
 	def get_kl_15_Status(self):
 		colr="red"
-		self.kl15Status = "unknown"
 		if self.serialStatus is 'CONNECTED':
 			if self.kl15Status is "ON":
 				self.kl15Status= "OFF"
@@ -53,7 +59,6 @@ class SerialConnect:
 # send kl 30 serial to contorl and set the button value		
 	def get_kl_30_Status(self):
 		colr="red"
-		self.kl30Status = "unknown"
 		if self.serialStatus is 'CONNECTED':
 			if self.kl30Status is "ON":
 				self.kl30Status= "OFF"
@@ -69,7 +74,6 @@ class SerialConnect:
 # send all power contol 
 	def getRebootStatus(self):
 		colr="red"
-		self.rbtStatus = "unknown"
 		if self.serialStatus is 'CONNECTED':
 			if self.rbtStatus is "ON":
 				self.rbtStatus = "OFF"
