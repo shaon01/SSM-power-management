@@ -26,8 +26,12 @@ lbl_KL_30.grid(column=2, row=2)
 lbl_reboot = Label(window,bg=initColr, text=initLable,height=2, width=7)
 lbl_reboot.grid(column=2, row=3, padx=5,pady=5)
 # label for connection status
-lbl_reboot = Label(window,bg=initColr, text=initLable,height=2, width=7)
-lbl_reboot.grid(column=2, row=3, padx=5,pady=5)
+lbl_comStat = Label(window,bg=initColr, text=serialClass.serialStatus,height=2, width=15)
+lbl_comStat.grid(column=2, row=4, padx=5,pady=5)
+
+# label for connection status
+lbl_comTitle = Label(window,text='Com Status',height=2, width=15)
+lbl_comTitle.grid(column=1, row=4, padx=5,pady=5)
 
 # lable handeler for kl15
 def clickedKL15():
@@ -45,7 +49,10 @@ def clickedReboot():
 	lbl_reboot.configure(bg=colr,text=rbtStatus)
 	lbl_KL_30.configure(bg=colr,text=rbtStatus)
 	lbl_KL_15.configure(bg=colr,text=rbtStatus)
-
+	
+def clickedConnect():
+	colr,comState = serialClass.reconnectSerial()
+	lbl_comStat.configure(bg=colr,text=comState)
 
 btn_KL_15 = Button(window, text="KL 15 Toggle", command=clickedKL15)
 btn_KL_15.grid(column=1, row=1,padx=50,pady=25)
@@ -56,6 +63,12 @@ btn_KL_30.grid(column=1, row=2,padx=50,pady=25)
 btn_reboot = Button(window, text="All power", command=clickedReboot)
 btn_reboot.grid(column=1, row=3,padx=50,pady=25)
 
+btn_connect = Button(window, text="reconnect", command=clickedConnect)
+btn_connect.grid(column=3, row=4,padx=50,pady=25)
+
+
+
 
 
 window.mainloop()
+

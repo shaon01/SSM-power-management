@@ -32,6 +32,20 @@ class SerialConnect:
 		except (OSError, serial.SerialException):
 			self.serialStatus = 'DISCONNECTED'
 			pass
+			
+	def reconnectSerial(self):
+		colr = 'red'
+		try:
+			self.srlCom = serial.Serial(self.getComProt(), 9600)
+			self.serialStatus = 'CONNECTED'
+			self.kl15Status = "ON"
+			self.kl30Status = "ON"
+			self.rbtStatus  = "ON"
+			colr = 'green'
+		except (OSError, serial.SerialException):
+			self.serialStatus = 'DISCONNECTED'
+			pass
+		return colr,self.serialStatus
 		
 	def sendData(self,powerCmd):
 		try:
