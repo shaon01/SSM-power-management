@@ -1,18 +1,26 @@
 
 
-#define KL_15_OUTPUT  7
-#define KL_30_OUTPUT  6
+#define KL_15_OUTPUT        6
+#define KL_30_OUTPUT_SSM_A  7
+#define KL_30_OUTPUT_SSM_B  8
 
-#define KL15_IO_ON       HIGH
-#define KL15_IO_OFF      LOW
-#define KL30_IO_ON       HIGH
-#define KL30_IO_OFF      LOW
+#define KL15_IO_ON              LOW
+#define KL15_IO_OFF             HIGH
+
+#define SSM_A_KL30_IO_ON        LOW
+#define SSM_A_KL30_IO_OFF       HIGH
+
+#define SSM_B_KL30_IO_ON        HIGH
+#define SSM_B_KL30_IO_OFF       LOW
 
 #define KL_15_USER_ON    'k'
 #define KL_15_USER_OFF   'f'
 
-#define KL_30_USER_ON    'p'
-#define KL_30_USER_OFF   's'
+#define SSM_A_KL_30_USER_ON    'p'
+#define SSM_A_KL_30_USER_OFF   's'
+
+#define SSM_B_KL_30_USER_ON    'a'
+#define SSM_B_KL_30_USER_OFF   'c'
 
 #define SYSTEM_ON        'h'
 #define SYSTEM_DOWN      'd'
@@ -21,12 +29,14 @@
 boolean debuggState = true;
 
 int kl15State = KL15_IO_ON;
-int kl30State = KL30_IO_ON;
+int SSM_A_kl30State = SSM_A_KL30_IO_ON;
+int SSM_B_kl30State = SSM_B_KL30_IO_ON;
 
 void setup() {
   //initially KL_15 is on
   pinMode(KL_15_OUTPUT,OUTPUT);
-  pinMode(KL_30_OUTPUT,OUTPUT);
+  pinMode(KL_30_OUTPUT_SSM_A,OUTPUT);
+  pinMode(KL_30_OUTPUT_SSM_B,OUTPUT);
   
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
@@ -43,7 +53,8 @@ void loop() {
 
  //controlling kl_15 output
   digitalWrite(KL_15_OUTPUT,kl15State);
-  digitalWrite(KL_30_OUTPUT,kl30State);
+  digitalWrite(KL_30_OUTPUT_SSM_A,SSM_A_kl30State);
+  digitalWrite(KL_30_OUTPUT_SSM_B,SSM_B_kl30State);
 }
 
 
@@ -72,27 +83,34 @@ void serialEvent() {
       kl15State = KL15_IO_OFF;
       break;
 
-    case KL_30_USER_ON:
-      kl30State = KL30_IO_ON;
+    case SSM_A_KL_30_USER_ON:
+      SSM_A_kl30State = SSM_A_KL30_IO_ON;
       break;
 
-    case KL_30_USER_OFF:
-      kl30State = KL30_IO_OFF;
+    case SSM_A_KL_30_USER_OFF:
+      SSM_A_kl30State = SSM_A_KL30_IO_OFF;
+      break;
+
+     case SSM_B_KL_30_USER_ON:
+      SSM_B_kl30State = SSM_B_KL30_IO_ON;
+      break;
+
+    case SSM_B_KL_30_USER_OFF:
+      SSM_B_kl30State = SSM_B_KL30_IO_OFF;
       break;
 
     case SYSTEM_DOWN:
       kl15State = KL15_IO_OFF;
-      kl30State = KL30_IO_OFF;
+      SSM_A_kl30State = SSM_A_KL30_IO_OFF;
+      SSM_B_kl30State = SSM_B_KL30_IO_OFF;
       break;
 
     case SYSTEM_ON:
       kl15State = KL15_IO_ON;
-      kl30State = KL30_IO_ON;
+      SSM_A_kl30State = SSM_A_KL30_IO_ON;
+      SSM_B_kl30State = SSM_B_KL30_IO_ON;
       break;
 
-    case SYSTEM_REBOOT:
-      rebootSystem();
-      break;
       
     default:
       break;
@@ -103,19 +121,10 @@ void serialEvent() {
     Serial.print("\n KL_15 state :");
     Serial.println(kl15State);
     Serial.println("\n");
-    Serial.print("\n KL_30 state :");
-    Serial.println(kl30State);
+    Serial.print("\n SSM_A KL_30 state :");
+    Serial.println(SSM_A_kl30State);
+    Serial.println("\n");
+    Serial.print("\n SSM_B KL_30 state :");
+    Serial.println(SSM_B_kl30State);
   }
 }
-
-void rebootSystem(){
-
-  digitalWrite(KL_15_OUTPUT,KL15_IO_OFF);
-  digitalWrite(KL_30_OUTPUT,KL30_IO_OFF);
-
-  delay(1000);
-
-  digitalWrite(KL_15_OUTPUT,KL15_IO_ON);
-  digitalWrite(KL_30_OUTPUT,KL30_IO_ON);
-  
-  }
