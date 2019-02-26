@@ -8,7 +8,9 @@ import serial.tools.list_ports
         
 
 class SerialConnect:
-	
+
+	srlCom = serial.Serial()
+	srlCom.baudrate = 9600
 	kl15Status = "unknown"
 	kl30Status = "unknown"
 	rbtStatus  = "unknown" 
@@ -26,7 +28,8 @@ class SerialConnect:
 	
 	def __init__(self):
 		try:
-			self.srlCom = serial.Serial(self.getComProt(), 9600)
+			self.srlCom.port = self.getComProt()
+			self.srlCom.open()
 			self.serialStatus = self.comOn
 			self.kl15Status = "ON"
 			self.kl30Status = "ON"
@@ -38,7 +41,8 @@ class SerialConnect:
 	def reconnectSerial(self):
 		colr = 'red'
 		try:
-			self.srlCom = serial.Serial(self.getComProt(), 9600)
+			self.srlCom.port = self.getComProt()
+			self.srlCom.open()
 			self.serialStatus = self.comOn
 			self.kl15Status = "ON"
 			self.kl30Status = "ON"
@@ -124,12 +128,6 @@ class SerialConnect:
 					#print 'found it:',port.device
 					arduinoPortID = port.device
 		return arduinoPortID
-        
-			
-		
-			
-    
 
-test = SerialConnect()
-print(test.serialStatus)
+
 

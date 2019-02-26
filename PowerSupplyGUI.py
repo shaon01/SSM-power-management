@@ -45,8 +45,8 @@ class PowerSupplyGUI:
 		
 		
 	def updateLable(self):
-		print (self.serialClass.comSerialStatus())
-		if self.serialClass.comSerialStatus() is 'DISCONNECTED':
+		if self.serialClass.comSerialStatus() is self.serialClass.comOff:
+			#print (self.serialClass.comSerialStatus())
 			colr = 'red'
 			status = 'unknown'
 			comStat = 'DISCONNECTED'
@@ -55,10 +55,10 @@ class PowerSupplyGUI:
 			self.lbl_power.configure(bg=colr,text=status)
 			self.lbl_comStat.configure(bg=colr,text=comStat)
 			#calling update in 1000 milisecond
-			#self.lbl_KL_15.after(10, self.updateLable)
-			#self.lbl_KL_SSM_A.after(10, self.updateLable)
-			#self.lbl_power.after(10, self.updateLable)
-			self.lbl_comStat.after(10, self.updateLable)
+		#self.lbl_KL_15.after(10, self.updateLable)
+		#self.lbl_KL_SSM_A.after(10, self.updateLable)
+		#self.lbl_power.after(10, self.updateLable)
+		self.lbl_comStat.after(1000, self.updateLable)
 			
 			
 	# lable handeler for kl15
