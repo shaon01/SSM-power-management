@@ -87,8 +87,9 @@ class PowerSupplyGUI:
 
 if __name__ == '__main__':
 	window = Tk()
-	PowerSupplyGUI(window)
+	guiHandle = PowerSupplyGUI(window)
 	window.title("Power Manager")
 	window.geometry('640x480')
+	window.after(1000, guiHandle.updateLable())
 	window.mainloop()
 
