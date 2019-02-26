@@ -20,30 +20,32 @@ class SerialConnect:
 	pwron	= 	'h'
 	pwroff	=	'd'
 	reboot 	=	'r'
-	serialStatus = 'DISCONNECTED'
+	comOn = 'CONNECTED'
+	comOff = 'DISCONNECTED'
+	serialStatus = comOn
 	
 	def __init__(self):
 		try:
 			self.srlCom = serial.Serial(self.getComProt(), 9600)
-			self.serialStatus = 'CONNECTED'
+			self.serialStatus = self.comOn
 			self.kl15Status = "ON"
 			self.kl30Status = "ON"
 			self.rbtStatus  = "ON"
 		except (OSError, serial.SerialException):
-			self.serialStatus = 'DISCONNECTED'
+			self.serialStatus = self.comOff
 			pass
 			
 	def reconnectSerial(self):
 		colr = 'red'
 		try:
 			self.srlCom = serial.Serial(self.getComProt(), 9600)
-			self.serialStatus = 'CONNECTED'
+			self.serialStatus = self.comOn
 			self.kl15Status = "ON"
 			self.kl30Status = "ON"
 			self.rbtStatus  = "ON"
 			colr = 'green'
 		except (OSError, serial.SerialException):
-			self.serialStatus = 'DISCONNECTED'
+			self.serialStatus = self.comOff
 			pass
 		return colr,self.serialStatus
 		
@@ -52,8 +54,15 @@ class SerialConnect:
 			self.srlCom.write(str.encode(powerCmd)) 
 			sleep(.1) # Delay for one tenth of a second
 		except (OSError, serial.SerialException):
-			self.serialStatus = 'DISCONNECTED'
+			self.serialStatus = self.comOff
 			pass
+			
+	def comSerialStatus(self):
+		if self.srlCom.isOpen():
+			serialStatus = self.comOn
+		else:
+			serialStatus = self.comOff
+		return serialStatus
 		
 # send kl 15 serial to contorl and set the button value
 	def get_kl_15_Status(self):

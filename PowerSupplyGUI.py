@@ -41,11 +41,12 @@ class PowerSupplyGUI:
 
 		self.btn_connect = Button(window, text="reconnect", command=self.clickedConnect)
 		self.btn_connect.grid(column=3, row=4,padx=50,pady=25)
-		#call the updater
 		self.updateLable()
 		
+		
 	def updateLable(self):
-		if self.serialClass.serialStatus is 'DISCONNECTED':
+		print (self.serialClass.comSerialStatus())
+		if self.serialClass.comSerialStatus() is 'DISCONNECTED':
 			colr = 'red'
 			status = 'unknown'
 			comStat = 'DISCONNECTED'
@@ -54,10 +55,10 @@ class PowerSupplyGUI:
 			self.lbl_power.configure(bg=colr,text=status)
 			self.lbl_comStat.configure(bg=colr,text=comStat)
 			#calling update in 1000 milisecond
-			self.lbl_KL_15.after(1000, self.updateLable)
-			self.lbl_KL_SSM_A.after(1000, self.updateLable)
-			self.lbl_power.after(1000, self.updateLable)
-			self.lbl_comStat.after(1000, self.updateLable)
+			#self.lbl_KL_15.after(10, self.updateLable)
+			#self.lbl_KL_SSM_A.after(10, self.updateLable)
+			#self.lbl_power.after(10, self.updateLable)
+			self.lbl_comStat.after(10, self.updateLable)
 			
 			
 	# lable handeler for kl15
