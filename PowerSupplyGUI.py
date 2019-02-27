@@ -31,16 +31,16 @@ class PowerSupplyGUI(Tk):
 		self.lbl_comTitle = Label(window,text='Com Status',height=2, width=15)
 		self.lbl_comTitle.grid(column=1, row=4, padx=5,pady=5)
 		
-		self.btn_KL_15 = Button(window, text="KL 15 Toggle", command=self.clickedKL15)
-		self.btn_KL_15.grid(column=1, row=1,padx=50,pady=25)
+		self.btn_KL_15 = Button(window, text="KL 15 ", command=self.clickedKL15,height=2, width=15)
+		self.btn_KL_15.grid(column=1, row=1,padx=50,pady=5)
 
-		self.btn_KL_30 = Button(window, text="KL 30 Toggle", command=self.clickedKL30)
-		self.btn_KL_30.grid(column=1, row=2,padx=50,pady=25)
+		self.btn_KL_30_SSM_A = Button(window, text="KL 30 SSM_A", command=self.clickedKL30,height=2, width=15)
+		self.btn_KL_30_SSM_A.grid(column=1, row=2, padx=50, pady=5,)
 
-		self.btn_reboot = Button(window, text="All power", command=self.clickedReboot)
-		self.btn_reboot.grid(column=1, row=3,padx=50,pady=25)
+		self.btn_reboot = Button(window, text="All power", command=self.clickedReboot,height=2, width=15)
+		self.btn_reboot.grid(column=1, row=3,padx=50,pady=5)
 
-		self.btn_connect = Button(window, text="reconnect", command=self.clickedConnect)
+		self.btn_connect = Button(window, text="reconnect", command=self.clickedConnect,height=2, width=15)
 		self.btn_connect.grid(column=3, row=4,padx=50,pady=25)
 		self.updateLable()
 		
@@ -61,7 +61,6 @@ class PowerSupplyGUI(Tk):
 	# lable handeler for kl15
 	def clickedKL15(self):
 		colr,kl15Status = self.serialClass.get_kl_15_Status()
-		print ('in kl 15 clicked status', colr, kl15Status)
 		self.lbl_KL_15.configure(bg=colr,text=kl15Status)
 		
 	# lable handeler for kl30
