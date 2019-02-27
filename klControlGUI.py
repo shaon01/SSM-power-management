@@ -40,7 +40,7 @@ def clickedKL15():
 	
 # lable handeler for kl30
 def clickedKL30():
-	colr,kl30Status = serialClass.get_kl_30_Status()
+	colr,kl30Status = serialClass.get_kl_30_SSM_A_Status()
 	lbl_KL_30.configure(bg=colr,text=kl30Status)
 
 # lable handeler for power for all

@@ -17,8 +17,10 @@ class SerialConnect:
 
 	kl15on 	= 	'k'
 	kl15off = 	'f'
-	kl30on 	= 	'p'
-	kl30off = 	's'
+	kl30SSM_A_on 	= 'p'
+	kl30SSM_A_off = 's'
+	kl30SSM_B_on = 'p'
+	kl30SSM_B_off = 's'
 	pwron	= 	'h'
 	pwroff	=	'd'
 	reboot 	=	'r'
@@ -82,22 +84,38 @@ class SerialConnect:
 			self.sendData(serVal)
 		return colr,self.kl15Status
 	
-# send kl 30 serial to contorl and set the button value		
-	def get_kl_30_Status(self):
+# send kl 30 ssm_a serial to contorl and set the button value
+	def get_kl_30_SSM_A_Status(self):
 		colr="red"
 		if self.serialStatus is 'CONNECTED':
 			if self.kl30Status is "ON":
 				self.kl30Status= "OFF"
 				colr="red"
-				serVal = self.kl30off
+				serVal = self.kl30SSM_A_off
 			elif self.kl30Status is "OFF":
 				self.kl30Status = "ON"
 				colr="green"
-				serVal = self.kl30on
+				serVal = self.kl30SSM_A_on
 			self.sendData(serVal)
 		return colr,self.kl30Status
 
-# send all power contol 
+# send kl 30 ssm_a serial to contorl and set the button value
+	def get_kl_30_SSM_B_Status(self):
+		colr = "red"
+		if self.serialStatus is 'CONNECTED':
+			if self.kl30Status is "ON":
+				self.kl30Status = "OFF"
+				colr = "red"
+				serVal = self.kl30SSM_B_off
+			elif self.kl30Status is "OFF":
+				self.kl30Status = "ON"
+				colr = "green"
+				serVal = self.kl30SSM_B_on
+			#todo : need to implement serial values
+			self.sendData(serVal)
+		return colr, self.kl30Status
+
+	# send all power contol
 	def getRebootStatus(self):
 		colr="red"
 		if self.serialStatus is 'CONNECTED':
