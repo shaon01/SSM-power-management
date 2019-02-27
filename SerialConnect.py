@@ -62,12 +62,12 @@ class SerialConnect:
 			pass
 			
 	def comSerialStatus(self):
-		if self.srlCom.isOpen():
-			serialStatus = self.comOn
+		if str(self.getComProt()) is '':
+			serilStatus = self.comOff
 		else:
-			serialStatus = self.comOff
-		print('in com status :',serialStatus)
-		return serialStatus
+			serilStatus = self.comOn
+		print('in serial com stat ;', self.getComProt(), serilStatus)
+		return serilStatus
 		
 # send kl 15 serial to contorl and set the button value
 	def get_kl_15_Status(self):
