@@ -39,19 +39,16 @@ class SerialConnect:
 			pass
 			
 	def reconnectSerial(self):
-		colr = 'red'
 		try:
 			self.srlCom.port = self.getComProt()
 			self.srlCom.open()
-			self.serialStatus = self.comOn
 			self.kl15Status = "ON"
 			self.kl30Status = "ON"
-			self.rbtStatus  = "ON"
-			colr = 'green'
+			self.rbtStatus = "ON"
 		except (OSError, serial.SerialException):
-			self.serialStatus = self.comOff
 			pass
-		return colr,self.serialStatus
+		colr, comStat = self.comSerialStatus()
+		return colr, comStat
 		
 	def sendData(self,powerCmd):
 		try:
@@ -63,11 +60,12 @@ class SerialConnect:
 			
 	def comSerialStatus(self):
 		if str(self.getComProt()) is '':
-			serilStatus = self.comOff
+			colr = 'red'
+			self.serialStatus = self.comOff
 		else:
-			serilStatus = self.comOn
-		print('in serial com stat ;', self.getComProt(), serilStatus)
-		return serilStatus
+			colr ='green'
+			self.serialStatus = self.comOn
+		return colr, self.serialStatus
 		
 # send kl 15 serial to contorl and set the button value
 	def get_kl_15_Status(self):

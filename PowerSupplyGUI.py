@@ -18,7 +18,7 @@ class PowerSupplyGUI(Tk):
 		# lable for kl15
 		self.lbl_KL_15 = Label(window, bg=initColr, text=initLable,height=2, width=7)
 		self.lbl_KL_15.grid(column=2, row=1)
-		# lable for kl30
+		# lable for SSM_A
 		self.lbl_KL_SSM_A = Label(window,bg=initColr, text=initLable,height=2, width=7)
 		self.lbl_KL_SSM_A.grid(column=2, row=2)
 		# lable for all power
@@ -27,7 +27,6 @@ class PowerSupplyGUI(Tk):
 		# label for connection status
 		self.lbl_comStat = Label(window,bg=initColr, text=self.serialClass.serialStatus,height=2, width=15)
 		self.lbl_comStat.grid(column=2, row=4, padx=5,pady=5)
-
 		# label for connection status
 		self.lbl_comTitle = Label(window,text='Com Status',height=2, width=15)
 		self.lbl_comTitle.grid(column=1, row=4, padx=5,pady=5)
@@ -47,10 +46,9 @@ class PowerSupplyGUI(Tk):
 		
 		
 	def updateLable(self):
-		if self.serialClass.comSerialStatus() is self.serialClass.comOff:
-			colr = 'red'
+		colr, comStat = self.serialClass.comSerialStatus()
+		if comStat is self.serialClass.comOff:
 			status = 'unknown'
-			comStat = 'DISCONNECTED'
 			self.lbl_KL_15.configure(bg=colr,text=status)
 			self.lbl_KL_SSM_A.configure(bg=colr,text=status)
 			self.lbl_power.configure(bg=colr,text=status)
@@ -63,6 +61,7 @@ class PowerSupplyGUI(Tk):
 	# lable handeler for kl15
 	def clickedKL15(self):
 		colr,kl15Status = self.serialClass.get_kl_15_Status()
+		print ('in kl 15 clicked status', colr, kl15Status)
 		self.lbl_KL_15.configure(bg=colr,text=kl15Status)
 		
 	# lable handeler for kl30
@@ -79,7 +78,12 @@ class PowerSupplyGUI(Tk):
 		
 	def clickedConnect(self):
 		colr,comState = self.serialClass.reconnectSerial()
-		self.lbl_comStat.configure(bg=colr,text=comState)
+		if comState is self.serialClass.comOn:
+			rbtStatus = 'ON'
+			self.lbl_power.configure(bg=colr, text=rbtStatus)
+			self.lbl_KL_SSM_A.configure(bg=colr, text=rbtStatus)
+			self.lbl_KL_15.configure(bg=colr, text=rbtStatus)
+			self.lbl_comStat.configure(bg=colr,text=comState)
 
 
 
