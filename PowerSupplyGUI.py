@@ -2,11 +2,13 @@ from tkinter import *
 import  SerialConnect
 import sys
 
-class PowerSupplyGUI:
-	
+class PowerSupplyGUI(Tk):
+
+
 	serialClass = SerialConnect.SerialConnect()
-	
-	def __init__(self,window):
+
+	def __init__(self, window):
+		self.window = window
 		if self.serialClass.serialStatus is 'CONNECTED':
 			initLable = 'ON'
 			initColr = 'green'
@@ -46,7 +48,6 @@ class PowerSupplyGUI:
 		
 	def updateLable(self):
 		if self.serialClass.comSerialStatus() is self.serialClass.comOff:
-			#print (self.serialClass.comSerialStatus())
 			colr = 'red'
 			status = 'unknown'
 			comStat = 'DISCONNECTED'
@@ -54,11 +55,9 @@ class PowerSupplyGUI:
 			self.lbl_KL_SSM_A.configure(bg=colr,text=status)
 			self.lbl_power.configure(bg=colr,text=status)
 			self.lbl_comStat.configure(bg=colr,text=comStat)
-			#calling update in 1000 milisecond
-		#self.lbl_KL_15.after(10, self.updateLable)
-		#self.lbl_KL_SSM_A.after(10, self.updateLable)
-		#self.lbl_power.after(10, self.updateLable)
-		self.lbl_comStat.after(1000, self.updateLable)
+		#ng update in 1000 milisecond
+		self.window.after(1000, self.updateLable)
+
 			
 			
 	# lable handeler for kl15
@@ -90,6 +89,5 @@ if __name__ == '__main__':
 	guiHandle = PowerSupplyGUI(window)
 	window.title("Power Manager")
 	window.geometry('640x480')
-	window.after(1000, guiHandle.updateLable())
 	window.mainloop()
 

@@ -66,6 +66,7 @@ class SerialConnect:
 			serialStatus = self.comOn
 		else:
 			serialStatus = self.comOff
+		print('in com status :',serialStatus)
 		return serialStatus
 		
 # send kl 15 serial to contorl and set the button value
