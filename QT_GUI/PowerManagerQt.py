@@ -79,7 +79,7 @@ class AppWindow(QtWidgets.QMainWindow):
     def updateComStatus(self):
         colr, comStat = self.serialCom.comSerialStatus()
         if comStat is self.serialCom.comOff:
-            text = 'OFF'
+            text = 'UNKNOWN'
             self.setALLlable(colr, text)
             self.setComStatus()
 
