@@ -1,5 +1,5 @@
 import sys
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from GuiLayOut2 import Ui_MainWindow
 from SerialConnect import SerialConnect
 
@@ -24,25 +24,30 @@ class AppWindow(QtWidgets.QMainWindow):
         self.setALLlable(initColr, initLable)
         self.setComStatus()
 
+    # kl15 button handeler
     def btnKl15Clicked(self):
         colr, text = self.serialCom.get_kl_15_Status()
         self.ui.lbl_kl15.setStyleSheet('background-color:'+colr)
         self.ui.lbl_kl15.setText(text)
 
+    # ssm_A kl30 button handeler
     def btnSSM_AClicked(self):
         colr, text = self.serialCom.get_kl_30_SSM_A_Status()
         self.ui.lbl_SSM_A.setText(text)
         self.ui.lbl_SSM_A.setStyleSheet('background-color:'+colr)
 
+    # ssm_B kl30 button handeler
     def btnSSM_BClicked(self):
         colr, text = self.serialCom.get_kl_30_SSM_B_Status()
         self.ui.lbl_SSM_B.setText(text)
         self.ui.lbl_SSM_B.setStyleSheet('background-color:' + colr)
 
+    # all power button handeler
     def btnPowerClicked(self):
         colr, text = self.serialCom.getRebootStatus()
         self.setALLlable(colr, text)
 
+    # reconnect button handeler
     def btnReconnectClicked(self):
         colr, comStat = self.serialCom.reconnectSerial()
         if comStat is self.serialCom.comOn:
@@ -52,6 +57,7 @@ class AppWindow(QtWidgets.QMainWindow):
         self.setALLlable(colr, text)
         self.setComStatus()
 
+    #update all the labels at the same time
     def setALLlable(self,colr,text):
         self.ui.lbl_kl15.setText(text)
         self.ui.lbl_kl15.setStyleSheet('background-color:' + colr)
@@ -70,10 +76,20 @@ class AppWindow(QtWidgets.QMainWindow):
             self.ui.bar_ComStatus.setValue(0)
             self.ui.btn_connect.setText('RECONNECT')
 
+    def updateComStatus(self):
+        colr, comStat = self.serialCom.comSerialStatus()
+        if comStat is self.serialCom.comOff:
+            text = 'OFF'
+            self.setALLlable(colr, text)
+            self.setComStatus()
+
 
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication([])
     application = AppWindow()
+    timer = QtCore.QTimer()
+    timer.timeout.connect(application.updateComStatus)
+    timer.start(1000)  # every 10,000 milliseconds
     application.show()
     sys.exit(app.exec())
