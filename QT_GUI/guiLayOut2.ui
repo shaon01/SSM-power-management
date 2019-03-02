@@ -19,7 +19,7 @@
      <rect>
       <x>30</x>
       <y>20</y>
-      <width>251</width>
+      <width>291</width>
       <height>191</height>
      </rect>
     </property>
@@ -58,7 +58,7 @@
       <rect>
        <x>140</x>
        <y>70</y>
-       <width>101</width>
+       <width>121</width>
        <height>31</height>
       </rect>
      </property>
@@ -91,7 +91,7 @@ alternate-background-color: rgb(0, 170, 0);</string>
       <rect>
        <x>140</x>
        <y>30</y>
-       <width>101</width>
+       <width>121</width>
        <height>31</height>
       </rect>
      </property>
@@ -190,7 +190,7 @@ alternate-background-color: rgb(0, 170, 0);</string>
       <rect>
        <x>140</x>
        <y>110</y>
-       <width>101</width>
+       <width>121</width>
        <height>31</height>
       </rect>
      </property>
@@ -223,7 +223,7 @@ alternate-background-color: rgb(0, 170, 0);</string>
       <rect>
        <x>140</x>
        <y>150</y>
-       <width>101</width>
+       <width>121</width>
        <height>31</height>
       </rect>
      </property>
