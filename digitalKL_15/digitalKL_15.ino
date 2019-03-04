@@ -1,8 +1,8 @@
 
 
-#define KL_15_OUTPUT        6
-#define KL_30_OUTPUT_SSM_A  7
-#define KL_30_OUTPUT_SSM_B  8
+#define KL_15_OUTPUT        12   //relay 4
+#define KL_30_OUTPUT_SSM_A  7    //relay 2
+#define KL_30_OUTPUT_SSM_B  8    //relay 3
 
 #define KL15_IO_ON              LOW
 #define KL15_IO_OFF             HIGH
@@ -10,8 +10,8 @@
 #define SSM_A_KL30_IO_ON        LOW
 #define SSM_A_KL30_IO_OFF       HIGH
 
-#define SSM_B_KL30_IO_ON        HIGH
-#define SSM_B_KL30_IO_OFF       LOW
+#define SSM_B_KL30_IO_ON        LOW
+#define SSM_B_KL30_IO_OFF       HIGH
 
 #define KL_15_USER_ON    'k'
 #define KL_15_USER_OFF   'f'

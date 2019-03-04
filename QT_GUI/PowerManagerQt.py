@@ -15,7 +15,7 @@ class AppWindow(QtWidgets.QMainWindow):
         self.ui.btn_SSM_B.clicked.connect(self.btnSSM_BClicked)
         self.ui.btn_Power.clicked.connect(self.btnPowerClicked)
         self.ui.btn_connect.clicked.connect(self.btnReconnectClicked)
-        if self.serialCom.serialStatus is 'CONNECTED':
+        if self.serialCom.serialStatus is self.serialCom.comOn:
             initLable = 'ON'
             initColr = 'green'
         else:
@@ -68,6 +68,7 @@ class AppWindow(QtWidgets.QMainWindow):
         self.ui.lbl_Power.setText(text)
         self.ui.lbl_Power.setStyleSheet('background-color:' + colr)
 
+    #Set status of com button and the status bar
     def setComStatus(self):
         if self.serialCom.serialStatus is self.serialCom.comOn:
             self.ui.bar_ComStatus.setValue(100)
@@ -76,6 +77,7 @@ class AppWindow(QtWidgets.QMainWindow):
             self.ui.bar_ComStatus.setValue(0)
             self.ui.btn_connect.setText('RECONNECT')
 
+    #recheck the serial connection status in run time
     def updateComStatus(self):
         colr, comStat = self.serialCom.comSerialStatus()
         if comStat is self.serialCom.comOff:
