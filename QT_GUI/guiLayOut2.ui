@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
+    <width>639</width>
     <height>456</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>30</x>
       <y>20</y>
-      <width>291</width>
+      <width>331</width>
       <height>191</height>
      </rect>
     </property>
@@ -36,7 +36,7 @@
       <rect>
        <x>10</x>
        <y>150</y>
-       <width>101</width>
+       <width>141</width>
        <height>31</height>
       </rect>
      </property>
@@ -56,7 +56,7 @@
     <widget class="QLabel" name="lbl_SSM_A">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>190</x>
        <y>70</y>
        <width>121</width>
        <height>31</height>
@@ -89,7 +89,7 @@
     <widget class="QLabel" name="lbl_kl15">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>190</x>
        <y>30</y>
        <width>121</width>
        <height>31</height>
@@ -124,7 +124,7 @@
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>101</width>
+       <width>141</width>
        <height>31</height>
       </rect>
      </property>
@@ -146,7 +146,7 @@
       <rect>
        <x>10</x>
        <y>70</y>
-       <width>101</width>
+       <width>141</width>
        <height>31</height>
       </rect>
      </property>
@@ -154,7 +154,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>SSM_A</string>
+      <string>SSM_A KL30</string>
      </property>
      <property name="default">
       <bool>true</bool>
@@ -168,7 +168,7 @@
       <rect>
        <x>10</x>
        <y>110</y>
-       <width>101</width>
+       <width>141</width>
        <height>31</height>
       </rect>
      </property>
@@ -176,7 +176,7 @@
       <bool>false</bool>
      </property>
      <property name="text">
-      <string>SSM_B</string>
+      <string>SSM_B KL30</string>
      </property>
      <property name="default">
       <bool>true</bool>
@@ -188,7 +188,7 @@
     <widget class="QLabel" name="lbl_SSM_B">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>190</x>
        <y>110</y>
        <width>121</width>
        <height>31</height>
@@ -220,7 +220,7 @@
     <widget class="QLabel" name="lbl_Power">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>190</x>
        <y>150</y>
        <width>121</width>
        <height>31</height>
@@ -310,13 +310,38 @@
      </property>
     </widget>
    </widget>
+   <widget class="QLabel" name="lbl_miri">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>30</y>
+      <width>200</width>
+      <height>181</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>640</width>
+     <width>639</width>
      <height>21</height>
     </rect>
    </property>

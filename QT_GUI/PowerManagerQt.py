@@ -1,5 +1,5 @@
 import sys
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets, QtCore, QtGui
 from GuiLayOut2 import Ui_MainWindow
 from SerialConnect import SerialConnect
 
@@ -10,16 +10,24 @@ class AppWindow(QtWidgets.QMainWindow):
         super(AppWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        #setting button handler for each button
         self.ui.btn_kl15.clicked.connect(self.btnKl15Clicked)
         self.ui.btn_SSM_A.clicked.connect(self.btnSSM_AClicked)
         self.ui.btn_SSM_B.clicked.connect(self.btnSSM_BClicked)
         self.ui.btn_Power.clicked.connect(self.btnPowerClicked)
         self.ui.btn_connect.clicked.connect(self.btnReconnectClicked)
+        self.happyDog = QtGui.QPixmap('happyDog.jpg')
+        self.sadDog = QtGui.QPixmap('sadDog.jpg')
+        self.setInitialStatus()
+
+
+
+    def setInitialStatus(self):
         if self.serialCom.serialStatus is self.serialCom.comOn:
             initLable = 'ON'
             initColr = 'green'
         else:
-            initLable = 'unknown'
+            initLable = 'UNKNOWN'
             initColr = 'red'
         self.setALLlable(initColr, initLable)
         self.setComStatus()
@@ -73,9 +81,11 @@ class AppWindow(QtWidgets.QMainWindow):
         if self.serialCom.serialStatus is self.serialCom.comOn:
             self.ui.bar_ComStatus.setValue(100)
             self.ui.btn_connect.setText('CONNECTED')
+            self.ui.lbl_miri.setPixmap(self.happyDog)
         else:
             self.ui.bar_ComStatus.setValue(0)
             self.ui.btn_connect.setText('RECONNECT')
+            self.ui.lbl_miri.setPixmap(self.sadDog)
 
     #recheck the serial connection status in run time
     def updateComStatus(self):

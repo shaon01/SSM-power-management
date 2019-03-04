@@ -11,7 +11,7 @@
 #define SSM_A_KL30_IO_OFF       HIGH
 
 #define SSM_B_KL30_IO_ON        LOW
-#define SSM_B_KL30_IO_OFF       HIGH
+#define SSM_B_KL30_IO_OFF       HIGH                
 
 #define KL_15_USER_ON    'k'
 #define KL_15_USER_OFF   'f'
