@@ -12,7 +12,6 @@ class AppWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
         self.ui.btn_kl15.clicked.connect(self.btnKl15Clicked)
         self.ui.btn_SSM_A.clicked.connect(self.btnSSM_AClicked)
-        self.ui.btn_SSM_B.clicked.connect(self.btnSSM_BClicked)
         self.ui.btn_Power.clicked.connect(self.btnPowerClicked)
         self.ui.btn_connect.clicked.connect(self.btnReconnectClicked)
         if self.serialCom.serialStatus is self.serialCom.comOn:
@@ -33,12 +32,13 @@ class AppWindow(QtWidgets.QMainWindow):
     # ssm_A kl30 button handeler
     def btnSSM_AClicked(self):
         colr, text = self.serialCom.get_kl_30_SSM_A_Status()
+        colr2, text2 = self.serialCom.get_kl_30_SSM_B_Status()
         self.ui.lbl_SSM_A.setText(text)
         self.ui.lbl_SSM_A.setStyleSheet('background-color:'+colr)
 
     # ssm_B kl30 button handeler
     def btnSSM_BClicked(self):
-        colr, text = self.serialCom.get_kl_30_SSM_B_Status()
+
         self.ui.lbl_SSM_B.setText(text)
         self.ui.lbl_SSM_B.setStyleSheet('background-color:' + colr)
 
@@ -63,8 +63,6 @@ class AppWindow(QtWidgets.QMainWindow):
         self.ui.lbl_kl15.setStyleSheet('background-color:' + colr)
         self.ui.lbl_SSM_A.setText(text)
         self.ui.lbl_SSM_A.setStyleSheet('background-color:' + colr)
-        self.ui.lbl_SSM_B.setText(text)
-        self.ui.lbl_SSM_B.setStyleSheet('background-color:' + colr)
         self.ui.lbl_Power.setText(text)
         self.ui.lbl_Power.setStyleSheet('background-color:' + colr)
 
