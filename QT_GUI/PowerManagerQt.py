@@ -34,7 +34,7 @@ class AppWindow(QtWidgets.QMainWindow):
     # ssm_A kl30 button handeler
     def btnSSM_AClicked(self):
         colr, text = self.serialCom.get_kl_30_SSM_A_Status()
-        colr2, text2 = self.serialCom.get_kl_30_SSM_B_Status()
+        #colr2, text2 = self.serialCom.get_kl_30_SSM_B_Status()
         self.ui.lbl_SSM_A.setText(text)
         self.ui.lbl_SSM_A.setStyleSheet('background-color:'+colr)
 

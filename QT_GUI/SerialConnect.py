@@ -11,19 +11,24 @@ class SerialConnect:
 
 	srlCom = serial.Serial()
 	srlCom.baudrate = 9600
-	kl15Status = "unknown"
-	kl30Status = "unknown"
-	rbtStatus  = "unknown" 
+	kl15Status = "UNKNOWN"
+	kl30Status = "UNKNOWN"
+	io_arduino_on =  0
+	io_arduino_off = 1
+	rbtStatus  = "UNKNOWN"
 
+	#arduino serial command
 	kl15on 	= 	'k'
 	kl15off = 	'f'
-	kl30SSM_A_on 	= 'p'
-	kl30SSM_A_off = 's'
-	kl30SSM_B_on = 'a'
-	kl30SSM_B_off = 'c'
+	kl30_on 	= 'p'
+	kl30_off = 's'
 	pwron	= 	'h'
 	pwroff	=	'd'
-	reboot 	=	'r'
+	io_status = 'i'
+
+	io_kl15_id = 'f'
+	io_kl30_id = 't'
+
 	comOn = 'CONNECTED'
 	comOff = 'DISCONNECTED'
 	serialStatus = comOn
@@ -36,6 +41,7 @@ class SerialConnect:
 			self.kl15Status = "ON"
 			self.kl30Status = "ON"
 			self.rbtStatus  = "ON"
+
 		except (OSError, serial.SerialException):
 			self.serialStatus = self.comOff
 			pass
@@ -54,12 +60,36 @@ class SerialConnect:
 		
 	def sendData(self,powerCmd):
 		try:
-			self.srlCom.write(str.encode(powerCmd)) 
+			self.srlCom.write(str.encode(powerCmd))
 			sleep(.1) # Delay for one tenth of a second
 		except (OSError, serial.SerialException):
 			self.serialStatus = self.comOff
 			pass
-			
+
+	def getArduinoIOstatus(self):
+		self.sendData(self.io_status)
+		while self.srlCom.inWaiting() > 0:
+			rawVal = self.srlCom.readline()
+		serialData = list(rawVal.decode('utf-8'))
+		# looking for kl15 status
+		if self.io_kl15_id in serialData :
+			indexOf15id = serialData.index(self.io_kl15_id)
+			if serialData[indexOf15id] is self.io_arduino_off:
+				self.kl15Status = 'OFF'
+			elif serialData[indexOf15id] is self.io_arduino_on:
+				self.kl15Status = 'ON'
+
+		# looking for kl30 status
+		if self.io_kl30_id in serialData :
+			indexOf30id = serialData.index(self.io_kl30_id)
+			if serialData[indexOf30id] is self.io_arduino_off:
+				self.kl30Status = 'OFF'
+			elif serialData[indexOf30id] is self.io_arduino_on:
+				self.kl30Status = 'ON'
+		#print('kl 15 status : ', self.kl15Status)
+		#print('kl 30 status : ', self.kl30Status)
+
+
 	def comSerialStatus(self):
 		if str(self.getComProt()) is '':
 			colr = 'red'
@@ -74,7 +104,7 @@ class SerialConnect:
 		colr="red"
 		if self.serialStatus is 'CONNECTED':
 			if self.kl15Status is "ON":
-				self.kl15Status= "OFF"
+				self.kl15Status = "OFF"
 				colr="red"
 				serVal = self.kl15off
 			elif self.kl15Status is "OFF":
@@ -82,7 +112,8 @@ class SerialConnect:
 				colr="green"
 				serVal = self.kl15on
 			self.sendData(serVal)
-		return colr,self.kl15Status
+			self.getArduinoIOstatus()
+		return colr, self.kl15Status
 	
 # send kl 30 ssm_a serial to contorl and set the button value
 	def get_kl_30_SSM_A_Status(self):
@@ -91,27 +122,13 @@ class SerialConnect:
 			if self.kl30Status is "ON":
 				self.kl30Status= "OFF"
 				colr="red"
-				serVal = self.kl30SSM_A_off
+				serVal = self.kl30_off
 			elif self.kl30Status is "OFF":
 				self.kl30Status = "ON"
 				colr="green"
-				serVal = self.kl30SSM_A_on
+				serVal = self.kl30_on
 			self.sendData(serVal)
-		return colr,self.kl30Status
-
-# send kl 30 ssm_a serial to contorl and set the button value
-	def get_kl_30_SSM_B_Status(self):
-		colr = "red"
-		if self.serialStatus is 'CONNECTED':
-			if self.kl30Status is "ON":
-				self.kl30Status = "OFF"
-				colr = "red"
-				serVal = self.kl30SSM_B_off
-			elif self.kl30Status is "OFF":
-				self.kl30Status = "ON"
-				colr = "green"
-				serVal = self.kl30SSM_B_on
-			self.sendData(serVal)
+			self.getArduinoIOstatus()
 		return colr, self.kl30Status
 
 	# send all power contol
@@ -127,7 +144,8 @@ class SerialConnect:
 				colr = "green"
 				serVal = self.pwron
 			self.sendData(serVal)
-		return colr,self.rbtStatus	
+			self.getArduinoIOstatus()
+		return colr, self.rbtStatus
 	
 # get all the ports and get the necessry port
 	def getComProt(self):
