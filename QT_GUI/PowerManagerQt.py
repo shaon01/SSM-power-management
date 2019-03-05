@@ -38,12 +38,6 @@ class AppWindow(QtWidgets.QMainWindow):
         self.ui.lbl_SSM_A.setText(text)
         self.ui.lbl_SSM_A.setStyleSheet('background-color:'+colr)
 
-    # ssm_B kl30 button handeler
-    def btnSSM_BClicked(self):
-
-        self.ui.lbl_SSM_B.setText(text)
-        self.ui.lbl_SSM_B.setStyleSheet('background-color:' + colr)
-
     # all power button handeler
     def btnPowerClicked(self):
         colr, text = self.serialCom.getRebootStatus()
@@ -60,13 +54,18 @@ class AppWindow(QtWidgets.QMainWindow):
         self.setComStatus()
 
     #update all the labels at the same time
-    def setALLlable(self,colr,text):
+    def setALLlable(self, colr, text):
         self.ui.lbl_kl15.setText(text)
         self.ui.lbl_kl15.setStyleSheet('background-color:' + colr)
         self.ui.lbl_SSM_A.setText(text)
         self.ui.lbl_SSM_A.setStyleSheet('background-color:' + colr)
         self.ui.lbl_Power.setText(text)
         self.ui.lbl_Power.setStyleSheet('background-color:' + colr)
+        if text is self.serialCom.io_status_on:
+            self.ui.lbl_miri.setPixmap(self.happyDog)
+        elif text is self.serialCom.io_status_off:
+            self.ui.lbl_miri.setPixmap(self.sadDog)
+
 
     #Set status of com button and the status bar
     def setComStatus(self):
