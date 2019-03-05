@@ -15,6 +15,8 @@ class SerialConnect:
 	kl30Status = "UNKNOWN"
 	io_arduino_on =  0
 	io_arduino_off = 1
+	io_status_on =  'ON'
+	io_status_off = 'OFF'
 	rbtStatus  = "UNKNOWN"
 
 	#arduino serial command
@@ -45,6 +47,8 @@ class SerialConnect:
 		except (OSError, serial.SerialException):
 			self.serialStatus = self.comOff
 			pass
+
+
 			
 	def reconnectSerial(self):
 		try:
@@ -53,6 +57,7 @@ class SerialConnect:
 			self.kl15Status = "ON"
 			self.kl30Status = "ON"
 			self.rbtStatus = "ON"
+			self.getArduinoIOstatus()
 		except (OSError, serial.SerialException):
 			pass
 		colr, comStat = self.comSerialStatus()
@@ -66,28 +71,31 @@ class SerialConnect:
 			self.serialStatus = self.comOff
 			pass
 
+	#reading current arduino value from serial
 	def getArduinoIOstatus(self):
-		self.sendData(self.io_status)
-		while self.srlCom.inWaiting() > 0:
-			rawVal = self.srlCom.readline()
-		serialData = list(rawVal.decode('utf-8'))
-		# looking for kl15 status
-		if self.io_kl15_id in serialData :
-			indexOf15id = serialData.index(self.io_kl15_id)
-			if serialData[indexOf15id] is self.io_arduino_off:
-				self.kl15Status = 'OFF'
-			elif serialData[indexOf15id] is self.io_arduino_on:
-				self.kl15Status = 'ON'
+		if self.serialStatus is self.comOn:
+			self.sendData(self.io_status)
+			while self.srlCom.inWaiting() > 0:
+				rawVal = self.srlCom.readline()
+			serialData = list(rawVal.decode('utf-8'))
+			# looking for kl15 status
+			if self.io_kl15_id in serialData:
+				indexOf15id = serialData.index(self.io_kl15_id) + 1
+				if int(serialData[indexOf15id]) is self.io_arduino_off:
+					self.kl15Status = self.io_status_off
+				elif int(serialData[indexOf15id]) is self.io_arduino_on:
+					self.kl15Status = self.io_status_on
 
-		# looking for kl30 status
-		if self.io_kl30_id in serialData :
-			indexOf30id = serialData.index(self.io_kl30_id)
-			if serialData[indexOf30id] is self.io_arduino_off:
-				self.kl30Status = 'OFF'
-			elif serialData[indexOf30id] is self.io_arduino_on:
-				self.kl30Status = 'ON'
-		#print('kl 15 status : ', self.kl15Status)
-		#print('kl 30 status : ', self.kl30Status)
+			# looking for kl30 status
+			if self.io_kl30_id in serialData:
+				indexOf30id = serialData.index(self.io_kl30_id) + 1
+				if int(serialData[indexOf30id]) is self.io_arduino_off:
+					self.kl30Status = self.io_status_off
+				elif int(serialData[indexOf30id]) is self.io_arduino_on:
+					self.kl30Status = self.io_status_on
+		print('kl 15 status : ', self.kl15Status, 'arduino status :', serialData[indexOf15id])
+		print('kl 30 status : ', self.kl30Status, 'arduino status :', serialData[indexOf30id])
+		print('========================================')
 
 
 	def comSerialStatus(self):
@@ -102,13 +110,12 @@ class SerialConnect:
 # send kl 15 serial to contorl and set the button value
 	def get_kl_15_Status(self):
 		colr="red"
-		if self.serialStatus is 'CONNECTED':
-			if self.kl15Status is "ON":
-				self.kl15Status = "OFF"
+		if self.serialStatus is self.comOn:
+			self.getArduinoIOstatus()
+			if self.kl15Status is self.io_status_on:
 				colr="red"
 				serVal = self.kl15off
-			elif self.kl15Status is "OFF":
-				self.kl15Status = "ON"
+			elif self.kl15Status is self.io_status_off:
 				colr="green"
 				serVal = self.kl15on
 			self.sendData(serVal)
@@ -118,13 +125,12 @@ class SerialConnect:
 # send kl 30 ssm_a serial to contorl and set the button value
 	def get_kl_30_SSM_A_Status(self):
 		colr="red"
-		if self.serialStatus is 'CONNECTED':
-			if self.kl30Status is "ON":
-				self.kl30Status= "OFF"
+		if self.serialStatus is self.comOn:
+			self.getArduinoIOstatus()
+			if self.kl30Status is self.io_status_on:
 				colr="red"
 				serVal = self.kl30_off
-			elif self.kl30Status is "OFF":
-				self.kl30Status = "ON"
+			elif self.kl30Status is self.io_status_off:
 				colr="green"
 				serVal = self.kl30_on
 			self.sendData(serVal)
@@ -134,13 +140,13 @@ class SerialConnect:
 	# send all power contol
 	def getRebootStatus(self):
 		colr="red"
-		if self.serialStatus is 'CONNECTED':
-			if self.rbtStatus is "ON":
-				self.rbtStatus = "OFF"
+		if self.serialStatus is self.comOn:
+			if self.rbtStatus is self.io_status_on:
+				self.rbtStatus = self.io_status_off
 				colr = "red"
 				serVal = self.pwroff 
-			elif self.rbtStatus is "OFF":
-				self.rbtStatus = "ON"
+			elif self.rbtStatus is self.io_status_off:
+				self.rbtStatus = self.io_status_on
 				colr = "green"
 				serVal = self.pwron
 			self.sendData(serVal)

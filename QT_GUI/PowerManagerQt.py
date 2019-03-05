@@ -82,6 +82,7 @@ class AppWindow(QtWidgets.QMainWindow):
     #recheck the serial connection status in run time
     def updateComStatus(self):
         colr, comStat = self.serialCom.comSerialStatus()
+        #self.serialCom.getArduinoStaus()
         if comStat is self.serialCom.comOff:
             text = 'UNKNOWN'
             self.setALLlable(colr, text)
