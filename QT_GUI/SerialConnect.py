@@ -1,11 +1,7 @@
-from tkinter import *
 from time import sleep
 import serial
 import sys
-
 import serial.tools.list_ports
-
-        
 
 class SerialConnect:
 
