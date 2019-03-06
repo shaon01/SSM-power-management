@@ -93,9 +93,9 @@ class SerialConnect:
 					self.kl30Status = self.io_status_off
 				elif int(serialData[indexOf30id]) is self.io_arduino_on:
 					self.kl30Status = self.io_status_on
-		print('kl 15 status : ', self.kl15Status, 'arduino status :', serialData[indexOf15id])
-		print('kl 30 status : ', self.kl30Status, 'arduino status :', serialData[indexOf30id])
-		print('========================================')
+		#print('kl 15 status : ', self.kl15Status, 'arduino status :', serialData[indexOf15id])
+		#print('kl 30 status : ', self.kl30Status, 'arduino status :', serialData[indexOf30id])
+		#print('========================================')
 
 
 	def comSerialStatus(self):

@@ -16,13 +16,39 @@ class AppWindow(QtWidgets.QMainWindow):
         self.ui.btn_connect.clicked.connect(self.btnReconnectClicked)
         self.happyDog = QtGui.QPixmap('happy.jpg')
         self.sadDog = QtGui.QPixmap('sad.jpg')
+        self.serialCom.getArduinoIOstatus()
+        self.initLblStatus()
+
+    def initLblStatus(self):
         if self.serialCom.serialStatus is self.serialCom.comOn:
-            initLable = 'ON'
-            initColr = 'green'
+            #updated KL15 status
+            if self.serialCom.kl15Status is self.serialCom.io_status_on:
+                self.ui.lbl_kl15.setText(self.serialCom.io_status_on)
+                self.ui.lbl_kl15.setStyleSheet('background-color:green' )
+            else:
+                self.ui.lbl_kl15.setText(self.serialCom.io_status_off)
+                self.ui.lbl_kl15.setStyleSheet('background-color:red')
+
+            #update kl30 status
+            if self.serialCom.kl30Status is self.serialCom.io_status_on:
+                self.ui.lbl_SSM_A.setText(self.serialCom.io_status_on)
+                self.ui.lbl_SSM_A.setStyleSheet('background-color:green')
+            else:
+                self.ui.lbl_SSM_A.setText(self.serialCom.io_status_off)
+                self.ui.lbl_SSM_A.setStyleSheet('background-color:red')
+
+            #update all power status
+            if self.serialCom.kl15Status is self.serialCom.io_status_off and self.serialCom.kl30Status is self.serialCom.io_status_off:
+                self.ui.lbl_Power.setText(self.serialCom.io_status_off)
+                self.ui.lbl_Power.setStyleSheet('background-color:red')
+            else:
+                self.ui.lbl_Power.setText(self.serialCom.io_status_on)
+                self.ui.lbl_Power.setStyleSheet('background-color:green')
+        #if serial is not connected
         else:
-            initLable = 'unknown'
+            initLable = 'UNKNOWN'
             initColr = 'red'
-        self.setALLlable(initColr, initLable)
+            self.setALLlable(initColr, initLable)
         self.setComStatus()
 
     # kl15 button handeler
