@@ -7,13 +7,30 @@ serialCommandList = {'startkl15': 'k',
                      'startkl30': 'p',
                      'stopkl30': 's'}
 
-serialCLI = SerialConnect()
+def printHelp():
+    print('======================================')
+    print('Command for Start    KL 15:  startkl15')
+    print('Command for Stop     KL 15:  stopkl15')
+    print('Command for Start    KL 30:  startkl30')
+    print('Command for Stop     KL 30:  stopkl30')
+    print('Command for help          :  h')
+    print('======================================')
+
 if len(sys.argv) > commandIndex:
     inputArg = str(sys.argv[commandIndex])
+    if inputArg is 'h':
+        printHelp()
     if inputArg in serialCommandList:
-        print('In python received argument:', inputArg)
-        print('serial command for received:', serialCommandList.get(inputArg))
-        serialCLI.sendData(serialCommandList.get(inputArg))
-
+        serialCLI = SerialConnect()
+        val, status = serialCLI.comSerialStatus()
+        if status is serialCLI.comOn:
+            print('Received option:', inputArg, ';; Serial value:', serialCommandList.get(inputArg))
+            serialCLI.sendData(serialCommandList.get(inputArg))
+        else:
+            print('Power supply is not available')
+    else:
+        print('Option is not valid')
+        printHelp()
 else:
-    print('no argument is given')
+    print('No argument is given, please provide one of the following option')
+    printHelp()
