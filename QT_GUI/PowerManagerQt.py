@@ -41,6 +41,7 @@ class AppWindow(QtWidgets.QMainWindow):
             if self.serialCom.kl15Status is self.serialCom.io_status_off and self.serialCom.kl30Status is self.serialCom.io_status_off:
                 self.ui.lbl_Power.setText(self.serialCom.io_status_off)
                 self.ui.lbl_Power.setStyleSheet('background-color:red')
+                self.serialCom.rbtStatus = self.serialCom.io_status_off
             else:
                 self.ui.lbl_Power.setText(self.serialCom.io_status_on)
                 self.ui.lbl_Power.setStyleSheet('background-color:green')
