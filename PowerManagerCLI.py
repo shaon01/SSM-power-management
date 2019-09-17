@@ -28,7 +28,7 @@ def printHelp():
     print('Activate DTC EF3013: DTC_EF3013')
     print('Deactivate all DTCs: DTC_None')
     print('')
-    
+
     print('Help command:  h')
     print('===========================================')
 
@@ -40,7 +40,7 @@ if len(sys.argv) > commandIndex:
         serialCLI = SerialConnect()
         val, status = serialCLI.comSerialStatus()
         if status is serialCLI.comOn:
-            print('Received option:', inputArg, ';; Serial value:', serialCommandList.get(inputArg))
+            #print('Received option:', inputArg, ';; Serial value:', serialCommandList.get(inputArg))
             serialCLI.sendData(serialCommandList.get(inputArg))
         else:
             print('Power supply is not available')

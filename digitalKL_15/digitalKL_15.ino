@@ -10,12 +10,12 @@
 #define RELAY_24_OUTPUT      11   //relay 4
 
 //output Status for KL15
-#define KL15_IO_ON        LOW
-#define KL15_IO_OFF       HIGH
+#define KL15_IO_ON        HIGH
+#define KL15_IO_OFF       LOW
 
 //output Status for KL30
-#define KL30_IO_ON        LOW
-#define KL30_IO_OFF       HIGH
+#define KL30_IO_ON        HIGH
+#define KL30_IO_OFF       LOW
 
 //output Status for relay 2.1
 #define RELAY_21_ON        HIGH
@@ -31,7 +31,7 @@
 
 //output Status for relay 2.4
 #define RELAY_24_ON        HIGH
-#define RELAY_24_OFF       
+#define RELAY_24_OFF       LOW
 
 //input from user over serial for kl15
 #define KL_15_USER_ON    'k'
@@ -53,7 +53,7 @@
 #define DTC_EF3013       'c'
 #define DTC_None         'v'
 
-boolean debuggState = false;
+boolean debuggState = true;
 
 int kl15State = KL15_IO_ON;
 int kl30State = KL30_IO_ON;
