@@ -5,16 +5,32 @@ commandIndex = 1
 serialCommandList = {'startkl15': 'k',
                      'stopkl15': 'f',
                      'startkl30': 'p',
-                     'stopkl30': 's'}
+                     'stopkl30': 's',
+                     'DTC_EF3011':'z',
+                     'DTC_EF3012':'x',
+                     'DTC_EF3013':'c',
+                     'DTC_None':'v'}
 
 def printHelp():
-    print('======================================')
-    print('Command for Start    KL 15:  startkl15')
-    print('Command for Stop     KL 15:  stopkl15')
-    print('Command for Start    KL 30:  startkl30')
-    print('Command for Stop     KL 30:  stopkl30')
-    print('Command for help          :  h')
-    print('======================================')
+    print('===========================================')
+    print('               HELP WINDOW                 ')
+    print('===========================================')
+    print('KL15 and KL30 commands')
+    print('Start KL 15:  startkl15')
+    print('Stop  KL 15:  stopkl15')
+    print('Start KL 30:  startkl30')
+    print('Stop  KL 30:  stopkl30')
+    print('')
+    
+    print('Q-diode DTC commands')
+    print('Activate DTC EF3011: DTC_EF3011')
+    print('Activate DTC EF3012: DTC_EF3012')
+    print('Activate DTC EF3013: DTC_EF3013')
+    print('Deactivate all DTCs: DTC_None')
+    print('')
+    
+    print('Help command:  h')
+    print('===========================================')
 
 if len(sys.argv) > commandIndex:
     inputArg = str(sys.argv[commandIndex])

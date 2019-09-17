@@ -1,14 +1,37 @@
 
-// realy input pins
+// realy 1 input pins
 #define KL_15_OUTPUT        12   //relay 4
 #define KL_30_OUTPUT        7    //relay 2
+
+// realy 2 input pins
+#define RELAY_21_OUTPUT      6    //relay 1
+#define RELAY_22_OUTPUT      9    //relay 2
+#define RELAY_23_OUTPUT      10   //relay 3
+#define RELAY_24_OUTPUT      11   //relay 4
 
 //output Status for KL15
 #define KL15_IO_ON        LOW
 #define KL15_IO_OFF       HIGH
+
 //output Status for KL30
 #define KL30_IO_ON        LOW
 #define KL30_IO_OFF       HIGH
+
+//output Status for relay 2.1
+#define RELAY_21_ON        HIGH
+#define RELAY_21_OFF       LOW
+
+//output Status for relay 2.2
+#define RELAY_22_ON        HIGH
+#define RELAY_22_OFF       LOW
+
+//output Status for relay 2.3
+#define RELAY_23_ON        HIGH
+#define RELAY_23_OFF       LOW
+
+//output Status for relay 2.4
+#define RELAY_24_ON        HIGH
+#define RELAY_24_OFF       
 
 //input from user over serial for kl15
 #define KL_15_USER_ON    'k'
@@ -24,16 +47,33 @@
 
 #define IO_STATUS        'i'
 
+//input from user for Q-diode DTCs
+#define DTC_EF3011       'z'
+#define DTC_EF3012       'x'
+#define DTC_EF3013       'c'
+#define DTC_None         'v'
+
 boolean debuggState = false;
 
 int kl15State = KL15_IO_ON;
 int kl30State = KL30_IO_ON;
+
+int relay21State = RELAY_21_OFF;
+int relay22State = RELAY_22_ON;
+int relay23State = RELAY_23_OFF;
+int relay24State = RELAY_24_ON;
 
 
 void setup() {
   //initially KL_15 is on
   pinMode(KL_15_OUTPUT,OUTPUT);
   pinMode(KL_30_OUTPUT,OUTPUT);
+
+  // Initialize Relay 2 pins
+  pinMode(RELAY_21_OUTPUT,OUTPUT);
+  pinMode(RELAY_22_OUTPUT,OUTPUT);
+  pinMode(RELAY_23_OUTPUT,OUTPUT);
+  pinMode(RELAY_24_OUTPUT,OUTPUT);
   
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
@@ -49,6 +89,13 @@ void loop() {
   digitalWrite(KL_15_OUTPUT,kl15State);
   //controlling kl_30 output
   digitalWrite(KL_30_OUTPUT,kl30State);
+
+  /*Set output for DTC pins*/
+  digitalWrite(RELAY_21_OUTPUT,relay21State);
+  digitalWrite(RELAY_22_OUTPUT,relay22State);
+  digitalWrite(RELAY_23_OUTPUT,relay23State);
+  digitalWrite(RELAY_24_OUTPUT,relay24State);
+  
 }
 
 
@@ -93,6 +140,38 @@ void serialEvent() {
     case SYSTEM_ON:
       kl15State = KL15_IO_ON;
       kl30State = KL30_IO_ON;
+      break;
+
+    // Short-to-ground, DTC - EF3011
+    case DTC_EF3011:
+      relay21State = RELAY_21_OFF;
+      relay22State = RELAY_22_OFF;
+      relay23State = RELAY_23_ON;
+      relay24State = RELAY_24_ON;
+      break;
+
+    // Short-to-battery, DTC -EF3012
+    case DTC_EF3012:
+      relay21State = RELAY_21_ON;
+      relay22State = RELAY_22_OFF;
+      relay23State = RELAY_23_OFF;
+      relay24State = RELAY_24_OFF;
+      break;
+
+    // Open circuit, DTC - EF3013
+    case DTC_EF3013:
+      relay21State = RELAY_21_OFF;
+      relay22State = RELAY_22_OFF;
+      relay23State = RELAY_23_OFF;
+      relay24State = RELAY_24_OFF;
+      break;
+      
+    // Normal behavior, DTC - None
+    case DTC_None:
+      relay21State = RELAY_21_OFF;
+      relay22State = RELAY_22_ON;
+      relay23State = RELAY_23_OFF;
+      relay24State = RELAY_24_ON;
       break;
       
     case IO_STATUS:
