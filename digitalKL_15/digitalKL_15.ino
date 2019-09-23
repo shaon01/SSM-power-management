@@ -10,12 +10,12 @@
 #define RELAY_24_OUTPUT      11   //relay 4
 
 //output Status for KL15
-#define KL15_IO_ON        HIGH
-#define KL15_IO_OFF       LOW
+#define KL15_IO_ON        LOW
+#define KL15_IO_OFF       HIGH	
 
 //output Status for KL30
-#define KL30_IO_ON        HIGH
-#define KL30_IO_OFF       LOW
+#define KL30_IO_ON        LOW
+#define KL30_IO_OFF       HIGH
 
 //output Status for relay 2.1
 #define RELAY_21_ON        HIGH
