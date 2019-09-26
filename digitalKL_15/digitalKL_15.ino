@@ -53,7 +53,7 @@
 #define DTC_EF3013       'c'
 #define DTC_None         'v'
 
-boolean debuggState = true;
+boolean debuggState = false;
 
 int kl15State = KL15_IO_ON;
 int kl30State = KL30_IO_ON;
