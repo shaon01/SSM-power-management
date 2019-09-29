@@ -7,11 +7,11 @@
 #endif
 //An OLED Display is required here
 //use pin A0
-#define Pin A5
+#define CURNT_SENS_PIN A5
 
 // Take the average of 500 times
 
-const int averageValue = 500;
+const int averageValue = 1000;
 
 long int sensorValue = 0;
 
@@ -20,7 +20,7 @@ float sensitivity = 1000.0 / 200.0; //1000mA per 200mV
 
 float Vref = 1508.79;
 
-#define PWM_VALUE 50
+#define PWM_VALUE 20
 #define PWM_PIN   3
 
 void setup() 
@@ -38,16 +38,16 @@ void loop()
   // Read the value 500 times:
   for (int i = 0; i < averageValue; i++)
   {
-    sensorValue += analogRead(Pin);
+    sensorValue += analogRead(CURNT_SENS_PIN);
 
     // wait 2 milliseconds before the next loop
     delay(2);
 
   }
 
-  sensorValue = sensorValue / averageValue;
+  float averageSensorValue = sensorValue / averageValue;
   SERIAL.print("Average ADC reading: ");
-  SERIAL.println(sensorValue);
+  SERIAL.println(averageSensorValue);
 
 
   // The on-board ADC is 10-bits 
@@ -55,7 +55,7 @@ void loop()
   // example: 2^10 = 1024 -> 5V / 1024 ~= 4.88mV
   //          unitValue= 5.0 / 1024.0*1000 ;
   float unitValue= RefVal / 1024.0*1000 ;
-  float voltage = unitValue * sensorValue; 
+  float voltage = unitValue * averageSensorValue; 
 
   //When no load,Vref=initialValue
   SERIAL.print("initialValue: ");
