@@ -201,12 +201,14 @@ void serialEvent() {
     case IO_STATUS:
       //write kl15 state
       Serial.print("KL15 A-side: ");
-      Serial.print(kl15_A_State);
+      Serial.write('f');
+      Serial.println(kl15_A_State);
 
       Serial.print("KL15 B-side: ");
-      Serial.print(kl15_B_State);    
+      Serial.println(kl15_B_State);    
       
       //write kl15 state
+      Serial.write('t');
       Serial.print("KL30: ");
       Serial.println(kl30State);
       break;
