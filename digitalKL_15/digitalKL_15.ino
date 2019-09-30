@@ -1,49 +1,61 @@
 
-// realy 1 input pins
-#define KL_15_OUTPUT        12   //relay 4
-#define KL_30_OUTPUT        7    //relay 2
+// realy input pins
+#define RELAY_1_OUTPUT      6    //relay 1
+#define RELAY_2_OUTPUT      7    //relay 2
+#define RELAY_3_OUTPUT      8    //relay 3
+#define RELAY_4_OUTPUT      9    //relay 4
+#define RELAY_5_OUTPUT      19   //relay 5
+#define RELAY_6_OUTPUT      11   //relay 6
+#define RELAY_7_OUTPUT      12   //relay 7
+#define RELAY_8_OUTPUT      13   //relay 8
 
-// realy 2 input pins
-#define RELAY_21_OUTPUT      6    //relay 1
-#define RELAY_22_OUTPUT      9    //relay 2
-#define RELAY_23_OUTPUT      10   //relay 3
-#define RELAY_24_OUTPUT      11   //relay 4
+//output Status for KL15 A-side
+#define RELAY_1_ON        LOW
+#define RELAY_1_OFF       HIGH  
 
-//output Status for KL15
-#define KL15_IO_ON        LOW
-#define KL15_IO_OFF       HIGH	
+//output Status for KL15 B-side
+#define RELAY_2_ON        LOW
+#define RELAY_2_OFF       HIGH  
 
 //output Status for KL30
-#define KL30_IO_ON        LOW
-#define KL30_IO_OFF       HIGH
+#define RELAY_3_ON        LOW
+#define RELAY_3_OFF       HIGH
 
-//output Status for relay 2.1
-#define RELAY_21_ON        HIGH
-#define RELAY_21_OFF       LOW
+//output Status for relay 4 - Q-didoe
+#define RELAY_4_ON        HIGH
+#define RELAY_4_OFF       LOW
 
-//output Status for relay 2.2
-#define RELAY_22_ON        HIGH
-#define RELAY_22_OFF       LOW
+//output Status for relay 5 - Q-didoe
+#define RELAY_5_ON        HIGH
+#define RELAY_5_OFF       LOW
 
-//output Status for relay 2.3
-#define RELAY_23_ON        HIGH
-#define RELAY_23_OFF       LOW
+//output Status for relay 6 - Q-didoe
+#define RELAY_6_ON        HIGH
+#define RELAY_6_OFF       LOW
 
-//output Status for relay 2.4
-#define RELAY_24_ON        HIGH
-#define RELAY_24_OFF       LOW
+//output Status for relay 7 - Q-didoe
+#define RELAY_7_ON        HIGH
+#define RELAY_7_OFF       LOW
 
-//input from user over serial for kl15
-#define KL_15_USER_ON    'k'
-#define KL_15_USER_OFF   'f'
+//output Status for relay 8
+//#define RELAY_8_ON        HIGH
+//#define RELAY_8_OFF       LOW
 
-//input from user over serial for kl15
-#define KL_30_USER_ON    'p'
-#define KL_30_USER_OFF   's'
+//input from user over serial for kl15 A-side
+#define KL_15_A_ON    'q'
+#define KL_15_A_OFF   'w'
+
+//input from user over serial for kl15 B-side
+#define KL_15_B_ON    'e'
+#define KL_15_B_OFF   'r'
+
+//input from user over serial for kl30
+#define KL_30_ON    'a'
+#define KL_30_OFF   's'
 
 //input from user over serial for turning all the power
-#define SYSTEM_ON        'h'
-#define SYSTEM_DOWN      'd'
+#define SYSTEM_ON        'd'
+#define SYSTEM_DOWN      'f'
 
 #define IO_STATUS        'i'
 
@@ -55,25 +67,26 @@
 
 boolean debuggState = false;
 
-int kl15State = KL15_IO_ON;
-int kl30State = KL30_IO_ON;
+int kl15_A_State = RELAY_1_ON;
+int kl15_B_State = RELAY_2_ON;
+int kl30State = RELAY_3_ON;
 
-int relay21State = RELAY_21_OFF;
-int relay22State = RELAY_22_ON;
-int relay23State = RELAY_23_OFF;
-int relay24State = RELAY_24_ON;
+int relay4State = RELAY_4_OFF;
+int relay5State = RELAY_5_ON;
+int relay6State = RELAY_6_OFF;
+int relay7State = RELAY_7_ON;
 
 
 void setup() {
-  //initially KL_15 is on
-  pinMode(KL_15_OUTPUT,OUTPUT);
-  pinMode(KL_30_OUTPUT,OUTPUT);
-
-  // Initialize Relay 2 pins
-  pinMode(RELAY_21_OUTPUT,OUTPUT);
-  pinMode(RELAY_22_OUTPUT,OUTPUT);
-  pinMode(RELAY_23_OUTPUT,OUTPUT);
-  pinMode(RELAY_24_OUTPUT,OUTPUT);
+  // Initialize Relay pins
+  pinMode(RELAY_1_OUTPUT,OUTPUT);
+  pinMode(RELAY_2_OUTPUT,OUTPUT);
+  pinMode(RELAY_3_OUTPUT,OUTPUT);
+  pinMode(RELAY_4_OUTPUT,OUTPUT);
+  pinMode(RELAY_5_OUTPUT,OUTPUT);
+  pinMode(RELAY_6_OUTPUT,OUTPUT);
+  pinMode(RELAY_7_OUTPUT,OUTPUT);
+  //pinMode(RELAY_8_OUTPUT,OUTPUT);
   
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
@@ -85,17 +98,15 @@ void setup() {
 
 void loop() {
  
- //controlling kl_15 output
-  digitalWrite(KL_15_OUTPUT,kl15State);
-  //controlling kl_30 output
-  digitalWrite(KL_30_OUTPUT,kl30State);
-
   /*Set output for DTC pins*/
-  digitalWrite(RELAY_21_OUTPUT,relay21State);
-  digitalWrite(RELAY_22_OUTPUT,relay22State);
-  digitalWrite(RELAY_23_OUTPUT,relay23State);
-  digitalWrite(RELAY_24_OUTPUT,relay24State);
-  
+  digitalWrite(RELAY_1_OUTPUT,kl15_A_State);
+  digitalWrite(RELAY_2_OUTPUT,kl15_B_State);
+  digitalWrite(RELAY_3_OUTPUT,kl30State);
+  digitalWrite(RELAY_4_OUTPUT,relay4State);
+  digitalWrite(RELAY_1_OUTPUT,relay5State);
+  digitalWrite(RELAY_2_OUTPUT,relay6State);
+  digitalWrite(RELAY_3_OUTPUT,relay7State);
+  //digitalWrite(RELAY_4_OUTPUT,relay8State);
 }
 
 
@@ -115,83 +126,101 @@ void serialEvent() {
   }
 
   switch (serialInput){
-    
-    case KL_15_USER_ON:
-      kl15State = KL15_IO_ON;
+
+    // Enable/disable KL15 (A and B side)
+    case KL_15_A_ON:
+      kl15_A_State = RELAY_1_ON;
       break;
 
-    case KL_15_USER_OFF:
-      kl15State = KL15_IO_OFF;
+    case KL_15_A_OFF:
+      kl15_A_State = RELAY_1_OFF;
       break;
 
-    case KL_30_USER_ON:
-      kl30State = KL30_IO_ON;
+    case KL_15_B_ON:
+      kl15_B_State = RELAY_2_ON;
       break;
 
-    case KL_30_USER_OFF:
-      kl30State = KL30_IO_OFF;
+    case KL_15_B_OFF:
+      kl15_B_State = RELAY_2_OFF;
       break;
 
+    // Enable/disable KL30
+    case KL_30_ON:
+      kl30State = RELAY_3_ON;
+      break;
+
+    case KL_30_OFF:
+      kl30State = RELAY_3_OFF;
+      break;
+
+    // Enable/disable Systm down
     case SYSTEM_DOWN:
-      kl15State = KL15_IO_OFF;
-      kl30State = KL30_IO_OFF;
+      kl15_A_State = RELAY_1_OFF;
+      kl15_B_State = RELAY_2_OFF;
+      kl30State = RELAY_3_OFF;
       break;
 
     case SYSTEM_ON:
-      kl15State = KL15_IO_ON;
-      kl30State = KL30_IO_ON;
+      kl15_A_State = RELAY_1_ON;
+      kl15_B_State = RELAY_2_ON;
+      kl30State = RELAY_3_ON;
       break;
 
     // Short-to-ground, DTC - EF3011
     case DTC_EF3011:
-      relay21State = RELAY_21_OFF;
-      relay22State = RELAY_22_OFF;
-      relay23State = RELAY_23_ON;
-      relay24State = RELAY_24_ON;
+      relay4State = RELAY_4_OFF;
+      relay5State = RELAY_5_OFF;
+      relay6State = RELAY_6_ON;
+      relay7State = RELAY_7_ON;
       break;
 
     // Short-to-battery, DTC -EF3012
     case DTC_EF3012:
-      relay21State = RELAY_21_ON;
-      relay22State = RELAY_22_OFF;
-      relay23State = RELAY_23_OFF;
-      relay24State = RELAY_24_OFF;
+      relay4State = RELAY_4_ON;
+      relay5State = RELAY_5_OFF;
+      relay6State = RELAY_6_OFF;
+      relay7State = RELAY_7_OFF;
       break;
 
     // Open circuit, DTC - EF3013
     case DTC_EF3013:
-      relay21State = RELAY_21_OFF;
-      relay22State = RELAY_22_OFF;
-      relay23State = RELAY_23_OFF;
-      relay24State = RELAY_24_OFF;
+      relay4State = RELAY_4_OFF;
+      relay5State = RELAY_5_OFF;
+      relay6State = RELAY_6_OFF;
+      relay7State = RELAY_7_OFF;
       break;
       
     // Normal behavior, DTC - None
     case DTC_None:
-      relay21State = RELAY_21_OFF;
-      relay22State = RELAY_22_ON;
-      relay23State = RELAY_23_OFF;
-      relay24State = RELAY_24_ON;
+      relay4State = RELAY_4_OFF;
+      relay5State = RELAY_5_ON;
+      relay6State = RELAY_6_OFF;
+      relay7State = RELAY_7_ON;
       break;
       
     case IO_STATUS:
       //write kl15 state
-      Serial.write('f');
-      Serial.print(kl15State);
+      Serial.print("KL15 A-side: ");
+      Serial.print(kl15_A_State);
+
+      Serial.print("KL15 B-side: ");
+      Serial.print(kl15_B_State);    
+      
       //write kl15 state
-      Serial.write('t');
+      Serial.print("KL30: ");
       Serial.println(kl30State);
       break;
       
     default:
       break;
     
-    
     }
     
   if(debuggState){
-    Serial.print("\n KL_15 state :");
-    Serial.println(kl15State);
+    Serial.print("\n KL_15_A state :");
+    Serial.println(kl15_A_State);
+    Serial.print("\n KL_15_B state :");
+    Serial.println(kl15_B_State);
     Serial.println("\n");
     Serial.print("\n SSM_A KL_30 state :");
     Serial.println(kl30State);

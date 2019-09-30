@@ -2,9 +2,11 @@ import sys
 from QT_GUI.SerialConnect import SerialConnect
 
 commandIndex = 1
-serialCommandList = {'startkl15': 'k',
-                     'stopkl15': 'f',
-                     'startkl30': 'p',
+serialCommandList = {'startAkl15': 'q',
+                     'stopAkl15': 'w',
+					 'startBkl15': 'e',
+                     'stopBkl15': 'r',
+                     'startkl30': 'a',
                      'stopkl30': 's',
                      'DTC_EF3011':'z',
                      'DTC_EF3012':'x',
@@ -16,8 +18,10 @@ def printHelp():
     print('               HELP WINDOW                 ')
     print('===========================================')
     print('KL15 and KL30 commands')
-    print('Start KL 15:  startkl15')
-    print('Stop  KL 15:  stopkl15')
+    print('Start KL 15 A-side:  startAkl15')
+    print('Stop  KL 15 A-side:  stopAkl15')
+	print('Start KL 15 B-side:  startBkl15')
+    print('Stop  KL 15 B-side:  stopBkl15')
     print('Start KL 30:  startkl30')
     print('Stop  KL 30:  stopkl30')
     print('')
