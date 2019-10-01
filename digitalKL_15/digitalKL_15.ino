@@ -9,15 +9,15 @@
 #define RELAY_7_OUTPUT      12   //relay 7
 #define RELAY_8_OUTPUT      13   //relay 8
 
-//output Status for KL15 A-side
+//output Status for KL15
 #define RELAY_1_ON        LOW
 #define RELAY_1_OFF       HIGH  
 
-//output Status for KL15 B-side
+//output Status for KL30 A-side
 #define RELAY_2_ON        LOW
 #define RELAY_2_OFF       HIGH  
 
-//output Status for KL30
+//output Status for KL30 B-side
 #define RELAY_3_ON        LOW
 #define RELAY_3_OFF       HIGH
 
@@ -41,17 +41,17 @@
 //#define RELAY_8_ON        HIGH
 //#define RELAY_8_OFF       LOW
 
-//input from user over serial for kl15 A-side
-#define KL_15_A_ON    'q'
-#define KL_15_A_OFF   'w'
+//input from user over serial for kl15
+#define KL_15_ON    'q'
+#define KL_15_OFF   'w'
 
-//input from user over serial for kl15 B-side
-#define KL_15_B_ON    'e'
-#define KL_15_B_OFF   'r'
+//input from user over serial for kl30 A-side
+#define KL_30_A_ON    'e'
+#define KL_30_A_OFF   'r'
 
-//input from user over serial for kl30
-#define KL_30_ON    'a'
-#define KL_30_OFF   's'
+//input from user over serial for kl30 B-side
+#define KL_30_B_ON    'a'
+#define KL_30_B_OFF   's'
 
 //input from user over serial for turning all the power
 #define SYSTEM_ON        'd'
@@ -67,9 +67,9 @@
 
 boolean debuggState = false;
 
-int kl15_A_State = RELAY_1_ON;
-int kl15_B_State = RELAY_2_ON;
-int kl30State = RELAY_3_ON;
+int kl15_State = RELAY_1_ON;
+int kl30_A_State = RELAY_2_ON;
+int kl30_B_State = RELAY_3_ON;
 
 int relay4State = RELAY_4_OFF;
 int relay5State = RELAY_5_ON;
@@ -99,9 +99,9 @@ void setup() {
 void loop() {
  
   /*Set output for DTC pins*/
-  digitalWrite(RELAY_1_OUTPUT,kl15_A_State);
-  digitalWrite(RELAY_2_OUTPUT,kl15_B_State);
-  digitalWrite(RELAY_3_OUTPUT,kl30State);
+  digitalWrite(RELAY_1_OUTPUT,kl15_State);
+  digitalWrite(RELAY_2_OUTPUT,kl30_A_State);
+  digitalWrite(RELAY_3_OUTPUT,kl30_B_State);
   digitalWrite(RELAY_4_OUTPUT,relay4State);
   digitalWrite(RELAY_1_OUTPUT,relay5State);
   digitalWrite(RELAY_2_OUTPUT,relay6State);
@@ -127,43 +127,44 @@ void serialEvent() {
 
   switch (serialInput){
 
-    // Enable/disable KL15 (A and B side)
-    case KL_15_A_ON:
-      kl15_A_State = RELAY_1_ON;
+    // Enable/disable KL15 
+    case KL_15_ON:
+      kl15_State = RELAY_1_ON;
       break;
 
-    case KL_15_A_OFF:
-      kl15_A_State = RELAY_1_OFF;
+    case KL_15_OFF:
+      kl15_State = RELAY_1_OFF;
       break;
 
-    case KL_15_B_ON:
-      kl15_B_State = RELAY_2_ON;
+    // Enable/disable KL30 (A and B side)
+
+    case KL_30_A_ON:
+      kl30_A_State = RELAY_2_ON;
       break;
 
-    case KL_15_B_OFF:
-      kl15_B_State = RELAY_2_OFF;
+    case KL_30_A_OFF:
+      kl30_A_State = RELAY_2_OFF;
+      break;
+      
+    case KL_30_B_ON:
+      kl30_B_State = RELAY_3_ON;
       break;
 
-    // Enable/disable KL30
-    case KL_30_ON:
-      kl30State = RELAY_3_ON;
-      break;
-
-    case KL_30_OFF:
-      kl30State = RELAY_3_OFF;
+    case KL_30_B_OFF:
+      kl30_B_State = RELAY_3_OFF;
       break;
 
     // Enable/disable Systm down
     case SYSTEM_DOWN:
-      kl15_A_State = RELAY_1_OFF;
-      kl15_B_State = RELAY_2_OFF;
-      kl30State = RELAY_3_OFF;
+      kl15_State = RELAY_1_OFF;
+      kl30_A_State = RELAY_2_OFF;
+      kl30_B_State = RELAY_3_OFF;
       break;
 
     case SYSTEM_ON:
-      kl15_A_State = RELAY_1_ON;
-      kl15_B_State = RELAY_2_ON;
-      kl30State = RELAY_3_ON;
+      kl15_State = RELAY_1_ON;
+      kl30_A_State = RELAY_2_ON;
+      kl30_B_State = RELAY_3_ON;
       break;
 
     // Short-to-ground, DTC - EF3011
@@ -200,17 +201,16 @@ void serialEvent() {
       
     case IO_STATUS:
       //write kl15 state
-      Serial.print("KL15 A-side: ");
+      Serial.print("KL15");
       Serial.write('f');
-      Serial.println(kl15_A_State);
-
-      Serial.print("KL15 B-side: ");
-      Serial.println(kl15_B_State);    
+      Serial.println(kl15_State); 
       
       //write kl15 state
       Serial.write('t');
-      Serial.print("KL30: ");
-      Serial.println(kl30State);
+      Serial.print("KL30 A-side: ");
+      Serial.println(kl30_A_State);
+      Serial.print("KL30 B-side: ");
+      Serial.println(kl30_B_State);
       break;
       
     default:
@@ -220,12 +220,12 @@ void serialEvent() {
     
   if(debuggState){
     Serial.print("\n KL_15_A state :");
-    Serial.println(kl15_A_State);
-    Serial.print("\n KL_15_B state :");
-    Serial.println(kl15_B_State);
+    Serial.println(kl15_State);
     Serial.println("\n");
-    Serial.print("\n SSM_A KL_30 state :");
-    Serial.println(kl30State);
+    Serial.print("\n SSM_A KL_30 state A-side:");
+    Serial.println(kl30_A_State);
+    Serial.print("\n SSM_A KL_30 state B-side:");
+    Serial.println(kl30_B_State);
     Serial.println("\n");
     
   }
