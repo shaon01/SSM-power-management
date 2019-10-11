@@ -103,10 +103,10 @@ void loop() {
   digitalWrite(RELAY_2_OUTPUT,kl30_A_State);
   digitalWrite(RELAY_3_OUTPUT,kl30_B_State);
   digitalWrite(RELAY_4_OUTPUT,relay4State);
-  digitalWrite(RELAY_1_OUTPUT,relay5State);
-  digitalWrite(RELAY_2_OUTPUT,relay6State);
-  digitalWrite(RELAY_3_OUTPUT,relay7State);
-  //digitalWrite(RELAY_4_OUTPUT,relay8State);
+  digitalWrite(RELAY_5_OUTPUT,relay5State);
+  digitalWrite(RELAY_6_OUTPUT,relay6State);
+  digitalWrite(RELAY_7_OUTPUT,relay7State);
+  //digitalWrite(RELAY_8_OUTPUT,relay8State);
 }
 
 

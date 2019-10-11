@@ -2,12 +2,12 @@ import sys
 from QT_GUI.SerialConnect import SerialConnect
 
 commandIndex = 1
-serialCommandList = {'startAkl15': 'q',
-                     'stopAkl15': 'w',
-					 'startBkl15': 'e',
-                     'stopBkl15': 'r',
-                     'startkl30': 'a',
-                     'stopkl30': 's',
+serialCommandList = {'startkl15': 'a',
+                     'stopkl15': 's',
+					 'startkl30A': 'q',
+                     'stopkl30A': 'w',
+                     'startkl30B': 'e',
+                     'stopkl30B': 'r',
                      'DTC_EF3011':'z',
                      'DTC_EF3012':'x',
                      'DTC_EF3013':'c',
