@@ -1,13 +1,13 @@
 
 // realy input pins
-#define RELAY_1_OUTPUT      6    //relay 1
-#define RELAY_2_OUTPUT      7    //relay 2
-#define RELAY_3_OUTPUT      8    //relay 3
-#define RELAY_4_OUTPUT      9    //relay 4
-#define RELAY_5_OUTPUT      19   //relay 5
-#define RELAY_6_OUTPUT      11   //relay 6
-#define RELAY_7_OUTPUT      12   //relay 7
-#define RELAY_8_OUTPUT      13   //relay 8
+#define RELAY_1_OUTPUT      13    //relay 1
+#define RELAY_2_OUTPUT      12    //relay 2
+#define RELAY_3_OUTPUT      11    //relay 3
+#define RELAY_4_OUTPUT      10    //relay 4
+#define RELAY_5_OUTPUT      9   //relay 5
+#define RELAY_6_OUTPUT      8   //relay 6
+#define RELAY_7_OUTPUT      7   //relay 7
+#define RELAY_8_OUTPUT      6   //relay 8
 
 //output Status for KL15
 #define RELAY_1_ON        LOW
