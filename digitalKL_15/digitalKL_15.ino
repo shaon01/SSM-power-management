@@ -101,20 +101,22 @@ void loop() {
 
 
 void serialEvent() {
-  
-  char serialInput;
-  while (Serial.available()) {
-    // get the new byte:
-    serialInput = (char)Serial.read();
 
-    if(debuggState){
-      Serial.print("\n serial reading of KL_15 :");
-      Serial.println(serialInput);
-    }
+  char serialInput[10];
+  int index = 0;
+  static int maxIndexCount = 5;
 
-  }
+  while(Serial.available() > 0) // Don't read unless
+  {
+      
+        serialInput[index] = Serial.read();
+        Serial.print("current value :");
+        Serial.println(serialInput[index]);
+        index++;
+      
+   }
 
-  switch (serialInput){
+  switch (serialInput[0]){
     
     case KL_15_USER_ON:
       kl15State = KL15_IO_ON;
