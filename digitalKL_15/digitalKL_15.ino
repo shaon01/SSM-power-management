@@ -92,8 +92,8 @@ void serialEvent() {
     while (Serial.available() > 0) // Don't read unless
     {
       serialInput[index] = Serial.read();
-      Serial.print("current value :");
-      Serial.println(serialInput[index]);
+      //Serial.print("current value :");
+      //Serial.println(serialInput[index]);
       index++;
       delay(10);
         
@@ -104,20 +104,20 @@ void serialEvent() {
   if (index <3)
   {
     busOffDelayTime = BUS_OFF_TIME;
-     Serial.print(" came heree");
+     
   }
   else
   {
-    Serial.print(" came to else");
     busOffDelayTime = (int(serialInput[1])- '0')*BUS_OFF_TIME;
   }
+  /*
   Serial.print(" index:");
   Serial.println(index);
   Serial.print(" value  1:");
   Serial.println(serialInput[1]);
   Serial.print(" Bus off time:");
   Serial.println(busOffDelayTime);
-  
+  */
 
   switch (serialInput[0]) {
 
@@ -159,6 +159,8 @@ void serialEvent() {
     case CAN_H_2_GND_ON:
       Serial.println("turning on can high to grownd");
       digitalWrite(CAN_H_2_GND_REL_1, CAN_RELAY_ON);
+      Serial.print(" Bus off time:");
+      Serial.println(busOffDelayTime);
       delay(busOffDelayTime);
       digitalWrite(CAN_H_2_GND_REL_1, CAN_RELAY_OFF);
       Serial.println("turning OFF can high to grownd");
@@ -168,12 +170,10 @@ void serialEvent() {
     case CAN_L_2_KL30_ON:
       Serial.println("turning on can low to KL30");
       digitalWrite(CAN_L_2_KL30_REL_2, CAN_RELAY_ON);
+      Serial.print(" Bus off time:");
+      Serial.println(busOffDelayTime);
       delay(busOffDelayTime);
- 
-      Serial.println(serialInput[0]);
-      Serial.println(serialInput[1]);
       digitalWrite(CAN_L_2_KL30_REL_2, CAN_RELAY_OFF);
-      
       Serial.println("turning OFF can low to KL30");
       Serial.println("*******************************");
       break;
@@ -181,6 +181,8 @@ void serialEvent() {
     case CAN_H_2_CAN_L_ON:
       Serial.println("turning on can low to can high");
       digitalWrite(CAN_H_2_CAN_L_REL_3, CAN_RELAY_ON);
+      Serial.print(" Bus off time:");
+      Serial.println(busOffDelayTime);
       delay(busOffDelayTime);
       digitalWrite(CAN_H_2_CAN_L_REL_3, CAN_RELAY_OFF);
       Serial.println("turning OFF can low to can high");
