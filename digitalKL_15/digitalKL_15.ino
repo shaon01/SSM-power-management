@@ -1,7 +1,16 @@
 
 // realy input pins
 #define KL_15_OUTPUT        12   //relay 4
-#define KL_30_OUTPUT        7    //relay 2
+#define KL_30_OUTPUT        7    //relay 3
+
+/*CAN bus controlling relay defination*/
+#define CAN_H_2_GND_REL_1     9 //realy 1
+#define CAN_L_2_KL30_REL_2    10 //realy 2
+#define CAN_H_2_CAN_L_REL_3   11 //realy 3
+
+/*CAN bus relay status*/
+#define CAN_RELAY_ON      HIGH
+#define CAN_RELAY_OFF     LOW
 
 //output Status for KL15
 #define KL15_IO_ON        LOW
@@ -9,6 +18,19 @@
 //output Status for KL30
 #define KL30_IO_ON        LOW
 #define KL30_IO_OFF       HIGH
+
+
+
+/*CAN error generation key*/
+#define CAN_H_2_GND_ON      'a'
+#define CAN_H_2_GND_OFF     'b'
+#define CAN_L_2_KL30_ON     'c'
+#define CAN_L_2_KL30_OFF    'f'
+#define CAN_H_2_CAN_L_ON    'e'
+#define CAN_H_2_CAN_L_OFF   'g'
+
+/*Bus off time for can*/
+#define BUS_OFF_TIME         1000
 
 //input from user over serial for kl15
 #define KL_15_USER_ON    'k'
@@ -30,11 +52,16 @@ int kl15State = KL15_IO_ON;
 int kl30State = KL30_IO_ON;
 
 
+
 void setup() {
   //initially KL_15 is on
-  pinMode(KL_15_OUTPUT,OUTPUT);
-  pinMode(KL_30_OUTPUT,OUTPUT);
-  
+  pinMode(KL_15_OUTPUT, OUTPUT);
+  pinMode(KL_30_OUTPUT, OUTPUT);
+  /*CAN realy Initialize*/
+  pinMode(CAN_H_2_GND_REL_1, OUTPUT);
+  pinMode(CAN_L_2_KL30_REL_2, OUTPUT);
+  pinMode(CAN_H_2_CAN_L_REL_3, OUTPUT);
+
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
   while (!Serial) {
@@ -44,31 +71,56 @@ void setup() {
 }
 
 void loop() {
- 
- //controlling kl_15 output
-  digitalWrite(KL_15_OUTPUT,kl15State);
+
+  //controlling kl_15 output
+  digitalWrite(KL_15_OUTPUT, kl15State);
   //controlling kl_30 output
-  digitalWrite(KL_30_OUTPUT,kl30State);
+  digitalWrite(KL_30_OUTPUT, kl30State);
 }
 
 
 
 void serialEvent() {
-  
-  char serialInput;
-  while (Serial.available()) {
-    // get the new byte:
-    serialInput = (char)Serial.read();
 
-    if(debuggState){
-      Serial.print("\n serial reading of KL_15 :");
-      Serial.println(serialInput);
+  char serialInput[10];
+  int index = 0;
+  static int maxIndexCount = 5;
+  int busOffDelayTime = 0;
+  
+  while(Serial.available())
+  {
+    while (Serial.available() > 0) // Don't read unless
+    {
+      serialInput[index] = Serial.read();
+      Serial.print("current value :");
+      Serial.println(serialInput[index]);
+      index++;
+      delay(10);
+        
     }
 
   }
 
-  switch (serialInput){
-    
+  if (index <3)
+  {
+    busOffDelayTime = BUS_OFF_TIME;
+     Serial.print(" came heree");
+  }
+  else
+  {
+    Serial.print(" came to else");
+    busOffDelayTime = (int(serialInput[1])- '0')*BUS_OFF_TIME;
+  }
+  Serial.print(" index:");
+  Serial.println(index);
+  Serial.print(" value  1:");
+  Serial.println(serialInput[1]);
+  Serial.print(" Bus off time:");
+  Serial.println(busOffDelayTime);
+  
+
+  switch (serialInput[0]) {
+
     case KL_15_USER_ON:
       kl15State = KL15_IO_ON;
       break;
@@ -94,7 +146,7 @@ void serialEvent() {
       kl15State = KL15_IO_ON;
       kl30State = KL30_IO_ON;
       break;
-      
+
     case IO_STATUS:
       //write kl15 state
       Serial.write('f');
@@ -103,21 +155,52 @@ void serialEvent() {
       Serial.write('t');
       Serial.println(kl30State);
       break;
+
+    case CAN_H_2_GND_ON:
+      Serial.println("turning on can high to grownd");
+      digitalWrite(CAN_H_2_GND_REL_1, CAN_RELAY_ON);
+      delay(busOffDelayTime);
+      digitalWrite(CAN_H_2_GND_REL_1, CAN_RELAY_OFF);
+      Serial.println("turning OFF can high to grownd");
+      Serial.println("*******************************");
+      break;
+
+    case CAN_L_2_KL30_ON:
+      Serial.println("turning on can low to KL30");
+      digitalWrite(CAN_L_2_KL30_REL_2, CAN_RELAY_ON);
+      delay(busOffDelayTime);
+ 
+      Serial.println(serialInput[0]);
+      Serial.println(serialInput[1]);
+      digitalWrite(CAN_L_2_KL30_REL_2, CAN_RELAY_OFF);
       
+      Serial.println("turning OFF can low to KL30");
+      Serial.println("*******************************");
+      break;
+
+    case CAN_H_2_CAN_L_ON:
+      Serial.println("turning on can low to can high");
+      digitalWrite(CAN_H_2_CAN_L_REL_3, CAN_RELAY_ON);
+      delay(busOffDelayTime);
+      digitalWrite(CAN_H_2_CAN_L_REL_3, CAN_RELAY_OFF);
+      Serial.println("turning OFF can low to can high");
+      Serial.println("*******************************");
+      break;
+
     default:
       break;
-    
-    
-    }
-    
-  if(debuggState){
+
+
+  }
+
+  if (debuggState) {
     Serial.print("\n KL_15 state :");
     Serial.println(kl15State);
     Serial.println("\n");
     Serial.print("\n SSM_A KL_30 state :");
     Serial.println(kl30State);
     Serial.println("\n");
-    
+
   }
-  
+
 }
