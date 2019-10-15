@@ -16,12 +16,18 @@ class SerialConnect:
 	rbtStatus  = "UNKNOWN"
 
 	#arduino serial command
-	kl15on 	= 	'k'
-	kl15off = 	'f'
-	kl30_on 	= 'p'
-	kl30_off = 's'
-	pwron	= 	'h'
-	pwroff	=	'd'
+	kl15on 	= 	'a'
+	kl15off = 	's'
+	
+	kl30A_on = 'q'
+	kl30A_off = 'w'
+	
+	kl30B_on 	= 'e'
+	kl30B_off = 'r'
+	
+	pwron	= 	'd'
+	pwroff	=	'h'
+	
 	io_status = 'i'
 
 	io_kl15_id = 'f'
@@ -74,6 +80,7 @@ class SerialConnect:
 			while self.srlCom.inWaiting() > 0:
 				rawVal = self.srlCom.readline()
 			serialData = list(rawVal.decode('utf-8'))
+			#print(serialData)
 			# looking for kl15 status
 			if self.io_kl15_id in serialData:
 				indexOf15id = serialData.index(self.io_kl15_id) + 1
@@ -125,11 +132,14 @@ class SerialConnect:
 			self.getArduinoIOstatus()
 			if self.kl30Status is self.io_status_on:
 				colr="red"
-				serVal = self.kl30_off
+				serValA = self.kl30A_off
+				serValB = self.kl30B_off
 			elif self.kl30Status is self.io_status_off:
 				colr="green"
-				serVal = self.kl30_on
-			self.sendData(serVal)
+				serValA = self.kl30A_on
+				serValB = self.kl30B_on
+			self.sendData(serValA)
+			self.sendData(serValB)
 			self.getArduinoIOstatus()
 		return colr, self.kl30Status
 

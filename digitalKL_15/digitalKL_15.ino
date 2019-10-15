@@ -4,10 +4,10 @@
 #define RELAY_2_OUTPUT      12    //relay 2
 #define RELAY_3_OUTPUT      11    //relay 3
 #define RELAY_4_OUTPUT      10    //relay 4
-#define RELAY_5_OUTPUT      9   //relay 5
-#define RELAY_6_OUTPUT      8   //relay 6
-#define RELAY_7_OUTPUT      7   //relay 7
-#define RELAY_8_OUTPUT      6   //relay 8
+#define RELAY_5_OUTPUT      9     //relay 5
+#define RELAY_6_OUTPUT      8     //relay 6
+#define RELAY_7_OUTPUT      7     //relay 7
+#define RELAY_8_OUTPUT      6     //relay 8
 
 //output Status for KL15
 #define RELAY_1_ON        LOW
@@ -55,7 +55,7 @@
 
 //input from user over serial for turning all the power
 #define SYSTEM_ON        'd'
-#define SYSTEM_DOWN      'f'
+#define SYSTEM_DOWN      'h'
 
 #define IO_STATUS        'i'
 
@@ -201,16 +201,11 @@ void serialEvent() {
       
     case IO_STATUS:
       //write kl15 state
-      Serial.print("KL15");
       Serial.write('f');
-      Serial.println(kl15_State); 
-      
+      Serial.print(kl15_State);
       //write kl15 state
       Serial.write('t');
-      Serial.print("KL30 A-side: ");
       Serial.println(kl30_A_State);
-      Serial.print("KL30 B-side: ");
-      Serial.println(kl30_B_State);
       break;
       
     default:
