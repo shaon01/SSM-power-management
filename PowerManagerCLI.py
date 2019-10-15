@@ -1,3 +1,5 @@
+
+
 import sys
 from QT_GUI.SerialConnect import SerialConnect
 
@@ -20,7 +22,7 @@ def printHelp():
     print('KL15 and KL30 commands')
     print('Start KL 15:  startkl15')
     print('Stop  KL 15:  stopkl15')
-	print('Start KL 30 A-side:  startkl30A')
+    print('Start KL 30 A-side:  startkl30A')
     print('Stop  KL 30 A-side:  stopkl30A')
     print('Start KL 30 B-side:  startkl30B')
     print('Stop  KL 30 B-side:  stopkl30B')

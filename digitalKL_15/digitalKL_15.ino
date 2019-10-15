@@ -42,16 +42,16 @@
 //#define RELAY_8_OFF       LOW
 
 //input from user over serial for kl15
-#define KL_15_ON    'q'
-#define KL_15_OFF   'w'
+#define KL_15_ON    'a'
+#define KL_15_OFF   's'
 
 //input from user over serial for kl30 A-side
-#define KL_30_A_ON    'e'
-#define KL_30_A_OFF   'r'
+#define KL_30_A_ON    'q'
+#define KL_30_A_OFF   'w'
 
 //input from user over serial for kl30 B-side
-#define KL_30_B_ON    'a'
-#define KL_30_B_OFF   's'
+#define KL_30_B_ON    'e'
+#define KL_30_B_OFF   'r'
 
 //input from user over serial for turning all the power
 #define SYSTEM_ON        'd'
