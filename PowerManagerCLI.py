@@ -1,6 +1,5 @@
 
 import platform
-print(platform.node())
 import sys
 from QT_GUI.SerialConnect import SerialConnect
 
@@ -62,7 +61,7 @@ if len(sys.argv) > commandIndex:
 		printHelp()
 	
 	# If not tower then convert the side specific commands to the common
-	if platform.node() not in 'SSM-TOWER-1':
+	if platform.node() not in 'ssm-tower-1':
 		if 'startkl30' in inputArg:
 			inputArg = 'startkl30'
 		elif 'stopkl30' in inputArg:
