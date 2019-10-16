@@ -42,8 +42,8 @@
 //#define RELAY_8_OFF       LOW
 
 //input from user over serial for kl15
-#define KL_15_ON    'a'
-#define KL_15_OFF   's'
+#define KL_15_ON    'k'
+#define KL_15_OFF   'f'
 
 //input from user over serial for kl30 A-side
 #define KL_30_A_ON    'q'
@@ -52,6 +52,10 @@
 //input from user over serial for kl30 B-side
 #define KL_30_B_ON    'e'
 #define KL_30_B_OFF   'r'
+
+//input from user over serial for kl30 (both sides)
+#define KL_30_ON    'p'
+#define KL_30_OFF   's'
 
 //input from user over serial for turning all the power
 #define SYSTEM_ON        'd'
@@ -153,6 +157,18 @@ void serialEvent() {
     case KL_30_B_OFF:
       kl30_B_State = RELAY_3_OFF;
       break;
+
+    case KL_30_ON:
+      kl30_A_State = RELAY_3_ON;
+      kl30_B_State = RELAY_3_ON;
+      break;
+
+    case KL_30_OFF:
+      kl30_A_State = RELAY_3_OFF;
+      kl30_B_State = RELAY_3_OFF;
+      break;
+
+      
 
     // Enable/disable Systm down
     case SYSTEM_DOWN:
