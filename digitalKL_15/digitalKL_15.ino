@@ -30,7 +30,8 @@
 #define CAN_H_2_CAN_L_OFF   'g'
 
 /*Bus off time for can*/
-#define BUS_OFF_TIME         1000
+#define BUS_OFF_TIME_L2         1000
+#define BUS_OFF_TIME_L1         10
 
 //input from user over serial for kl15
 #define KL_15_USER_ON    'k'
@@ -103,12 +104,11 @@ void serialEvent() {
 
   if (index <3)
   {
-    busOffDelayTime = BUS_OFF_TIME;
-     
+    busOffDelayTime = BUS_OFF_TIME_L1;
   }
   else
   {
-    busOffDelayTime = (int(serialInput[1])- '0')*BUS_OFF_TIME;
+    busOffDelayTime = (int(serialInput[1])- '0')*BUS_OFF_TIME_L2;
   }
   /*
   Serial.print(" index:");
