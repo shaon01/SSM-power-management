@@ -22,8 +22,8 @@ class SerialConnect:
 	kl30_on = 'p'
 	kl30_off = 's'
 	
-	pwron	= 	'd'
-	pwroff	=	'h'
+	pwron	= 	'h'
+	pwroff	=	'd'
 	
 	io_status = 'i'
 

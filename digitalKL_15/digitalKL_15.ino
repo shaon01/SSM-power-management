@@ -58,8 +58,8 @@
 #define KL_30_OFF   's'
 
 //input from user over serial for turning all the power
-#define SYSTEM_ON        'd'
-#define SYSTEM_DOWN      'h'
+#define SYSTEM_ON        'h'
+#define SYSTEM_DOWN      'd'
 
 #define IO_STATUS        'i'
 
