@@ -14,8 +14,8 @@ class AppWindow(QtWidgets.QMainWindow):
         self.ui.btn_SSM_A.clicked.connect(self.btnSSM_AClicked)
         self.ui.btn_Power.clicked.connect(self.btnPowerClicked)
         self.ui.btn_connect.clicked.connect(self.btnReconnectClicked)
-        self.happyDog = QtGui.QPixmap('C:\Tools\SSM-power-management\QT_GUI\images\ONMEME.jpg')
-        self.sadDog = QtGui.QPixmap('C:\Tools\SSM-power-management\QT_GUI\images\sleepMEME.jpg')
+        self.happyDog = QtGui.QPixmap('C:\ssm\Tools\PowerManager\images\ONMEME.jpg')
+        self.sadDog = QtGui.QPixmap('C:\ssm\Tools\PowerManager\images\sleepMEME.jpg')
         self.serialCom.getArduinoIOstatus()
         self.initLblStatus()
 
