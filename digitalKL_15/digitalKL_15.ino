@@ -84,7 +84,10 @@ void loop() {
 void serialEvent() {
 
   char serialInput[10];
+  float temp = 0;
+  float temp1 = 0;
   int index = 0;
+  float exp1 = 0;
   static int maxIndexCount = 5;
   int busOffDelayTime = 0;
   
@@ -108,16 +111,21 @@ void serialEvent() {
   }
   else
   {
-    busOffDelayTime = (int(serialInput[1])- '0')*BUS_OFF_TIME_L2;
+    for (int i = 1; i < index-1; i++) {
+      temp1 = (int(serialInput[i]) - '0');
+      exp1 = pow(10, index-i-2);
+      temp = temp + temp1 * exp1;
+    }
+    busOffDelayTime = int(round(temp)); // int(serialInput.substring(1))
   }
-  /*
+  
   Serial.print(" index:");
   Serial.println(index);
-  Serial.print(" value  1:");
-  Serial.println(serialInput[1]);
+  Serial.print(" value  temp:");
+  Serial.println(temp);
   Serial.print(" Bus off time:");
   Serial.println(busOffDelayTime);
-  */
+  
 
   switch (serialInput[0]) {
 
