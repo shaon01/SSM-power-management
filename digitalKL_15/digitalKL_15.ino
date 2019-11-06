@@ -118,14 +118,14 @@ void serialEvent() {
     }
     busOffDelayTime = int(round(temp)); // int(serialInput.substring(1))
   }
-  
+  /*
   Serial.print(" index:");
   Serial.println(index);
   Serial.print(" value  temp:");
   Serial.println(temp);
   Serial.print(" Bus off time:");
   Serial.println(busOffDelayTime);
-  
+  */
 
   switch (serialInput[0]) {
 
